@@ -1,2 +1,2 @@
-# sudokujs
+# sudokubox
 Sudoku project
