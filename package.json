@@ -1,5 +1,5 @@
 {
-  "name": "sudokujs",
+  "name": "sudokubox",
   "version": "0.0.1",
   "description": "Sudoku project",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yusufshakeel/sudokujs.git"
+    "url": "git+https://github.com/yusufshakeel/sudokubox.git"
   },
   "keywords": [
     "sudoku",
@@ -18,7 +18,7 @@
   "author": "Yusuf Shakeel",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yusufshakeel/sudokujs/issues"
+    "url": "https://github.com/yusufshakeel/sudokubox/issues"
   },
-  "homepage": "https://github.com/yusufshakeel/sudokujs#readme"
+  "homepage": "https://github.com/yusufshakeel/sudokubox#readme"
 }
