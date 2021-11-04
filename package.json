@@ -4,7 +4,10 @@
   "description": "Sudoku project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "precommit": "npm run lint && npm run test",
+    "lint": "npx eslint -c .eslintrc.json src test",
+    "lint:fix": "npx eslint --fix -c .eslintrc.json src test",
+    "test": "jest -c jest.config.json"
   },
   "repository": {
     "type": "git",
@@ -20,5 +23,16 @@
   "bugs": {
     "url": "https://github.com/yusufshakeel/sudokubox/issues"
   },
-  "homepage": "https://github.com/yusufshakeel/sudokubox#readme"
+  "homepage": "https://github.com/yusufshakeel/sudokubox#readme",
+  "engines": {
+    "node": ">11.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^27.3.1",
+    "prettier": "^2.4.1"
+  }
 }
