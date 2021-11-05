@@ -37,23 +37,23 @@ function getColumn(columnIndex, board) {
 /**
  * This will return true if value is unique in row.
  * @param {number} value The value to check in the row.
- * @param {number} rowIndex The row index of the value.
+ * @param {number} columnIndex The column index of the value.
  * @param {number[]} row The row to check.
  * @returns {boolean}
  */
-function isUniqueValueInRow(value, rowIndex, row) {
-  return !filteredArray(row, rowIndex).includes(value);
+function isUniqueValueInRow(value, columnIndex, row) {
+  return !filteredArray(row, columnIndex).includes(value);
 }
 
 /**
  * This will return true if value is unique in column.
  * @param {number} value The value to check in the column.
- * @param {number} columnIndex The column index of the value.
+ * @param {number} rowIndex The row index of the value.
  * @param {number[]} column The column to check.
  * @returns {boolean}
  */
-function isUniqueValueInColumn(value, columnIndex, column) {
-  return !filteredArray(column, columnIndex).includes(value);
+function isUniqueValueInColumn(value, rowIndex, column) {
+  return !filteredArray(column, rowIndex).includes(value);
 }
 
 /**
