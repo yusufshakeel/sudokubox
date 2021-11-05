@@ -231,6 +231,30 @@ function getColumnMarkup(columnIndex, markup) {
   return filterMarkup(cells, markup);
 }
 
+/**
+ * This will return markup for the sub board.
+ * @param {number} rowIndex
+ * @param {number} columnIndex
+ * @param {{string: [number]}} markup
+ * @returns {{string: [number]}}
+ */
+function getSubBoardMarkup(rowIndex, columnIndex, markup) {
+  const { rowStartIndex, rowEndIndex, columnStartIndex, columnEndIndex } = getSubBoardIndices(
+    rowIndex,
+    columnIndex
+  );
+  let cells = [];
+  for (let r = rowStartIndex; r <= rowEndIndex; r++) {
+    for (let c = columnStartIndex; c <= columnEndIndex; c++) {
+      const cell = `${r},${c}`;
+      if (markup[cell]) {
+        cells.push(cell);
+      }
+    }
+  }
+  return filterMarkup(cells, markup);
+}
+
 module.exports = {
   getRow,
   getColumn,
@@ -243,5 +267,6 @@ module.exports = {
   getMarkupCellIndices,
   getOutputArrayFromBoard,
   getRowMarkup,
-  getColumnMarkup
+  getColumnMarkup,
+  getSubBoardMarkup
 };

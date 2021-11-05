@@ -12,7 +12,8 @@ const {
   getMarkupCellIndices,
   getOutputArrayFromBoard,
   getRowMarkup,
-  getColumnMarkup
+  getColumnMarkup,
+  getSubBoardMarkup
 } = require('../../../src/helpers');
 
 const { puzzle, solution, output } = require('../../test-data/sudoku-puzzle-easy');
@@ -224,6 +225,18 @@ describe('getColumnMarkup', () => {
       '5,0': [1, 8],
       '7,0': [1, 8],
       '8,0': [1, 3, 9]
+    });
+  });
+});
+
+describe('getSubBoardMarkup', () => {
+  test('Should return sub board markup', () => {
+    expect(getSubBoardMarkup(7, 6, partiallySolvedBoardMarkupToFindPreemptiveSet)).toStrictEqual({
+      '6,6': [1, 4, 7, 9],
+      '6,7': [1, 9],
+      '7,6': [1, 5],
+      '7,7': [1, 5],
+      '8,6': [1, 7, 9]
     });
   });
 });
