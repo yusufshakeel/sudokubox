@@ -10,10 +10,16 @@ const {
   getSubBoardIndices,
   getSubBoardAsOneDimensionalArray,
   getMarkupCellIndices,
-  getOutputArrayFromBoard
+  getOutputArrayFromBoard,
+  getRowMarkup,
+  getColumnMarkup
 } = require('../../../src/helpers');
 
 const { puzzle, solution, output } = require('../../test-data/sudoku-puzzle-easy');
+
+const {
+  partiallySolvedBoardMarkupToFindPreemptiveSet
+} = require('../../test-data/sudoku-puzzle-hard');
 
 describe('getRow', () => {
   test('Should return row', () => {
@@ -195,5 +201,29 @@ describe('getMarkupCellIndices', () => {
 describe('getOutputArrayFromBoard', () => {
   test('Should return output array', () => {
     expect(getOutputArrayFromBoard(solution)).toStrictEqual(output);
+  });
+});
+
+describe('getRowMarkup', () => {
+  test('Should return row markup', () => {
+    expect(getRowMarkup(7, partiallySolvedBoardMarkupToFindPreemptiveSet)).toStrictEqual({
+      '7,0': [1, 8],
+      '7,6': [1, 5],
+      '7,7': [1, 5]
+    });
+  });
+});
+
+describe('getColumnMarkup', () => {
+  test('Should return column markup', () => {
+    expect(getColumnMarkup(0, partiallySolvedBoardMarkupToFindPreemptiveSet)).toStrictEqual({
+      '0,0': [1, 2, 9],
+      '1,0': [6, 9],
+      '2,0': [1, 4, 8, 9],
+      '4,0': [2, 6],
+      '5,0': [1, 8],
+      '7,0': [1, 8],
+      '8,0': [1, 3, 9]
+    });
   });
 });

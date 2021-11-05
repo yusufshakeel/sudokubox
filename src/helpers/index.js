@@ -191,6 +191,40 @@ function getOutputArrayFromBoard(board) {
     .map(value => parseInt(value));
 }
 
+/**
+ * This will return markup for the row.
+ * @param {number} rowIndex
+ * @param {{string: [number]}} markup
+ * @returns {{string: [number]}}
+ */
+function getRowMarkup(rowIndex, markup) {
+  return Object.keys(markup)
+    .filter(cell => {
+      const { rowIndex: markupCellRowIndex } = getMarkupCellIndices(cell);
+      return rowIndex === markupCellRowIndex;
+    })
+    .reduce((result, cell) => {
+      return { ...result, [cell]: markup[cell] };
+    }, {});
+}
+
+/**
+ * This will return markup for the column.
+ * @param {number} columnIndex
+ * @param {{string: [number]}} markup
+ * @returns {{string: [number]}}
+ */
+function getColumnMarkup(columnIndex, markup) {
+  return Object.keys(markup)
+    .filter(cell => {
+      const { columnIndex: markupCellColumnIndex } = getMarkupCellIndices(cell);
+      return columnIndex === markupCellColumnIndex;
+    })
+    .reduce((result, cell) => {
+      return { ...result, [cell]: markup[cell] };
+    }, {});
+}
+
 module.exports = {
   getRow,
   getColumn,
@@ -201,5 +235,7 @@ module.exports = {
   getSubBoardIndices,
   getSubBoardAsOneDimensionalArray,
   getMarkupCellIndices,
-  getOutputArrayFromBoard
+  getOutputArrayFromBoard,
+  getRowMarkup,
+  getColumnMarkup
 };
