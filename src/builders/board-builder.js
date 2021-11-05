@@ -1,7 +1,9 @@
 'use strict';
 
+const { TOTAL_ROWS } = require('../constants');
+
 function BoardBuilder(input) {
-  const isNewRow = index => (index + 1) % 9 === 0;
+  const isNewRow = index => (index + 1) % TOTAL_ROWS === 0;
 
   this.build = () => {
     const { board } = input.reduce(
