@@ -5,9 +5,12 @@ const {
   getColumn,
   isUniqueValueInRow,
   isUniqueValueInColumn,
-  getSubBoardIndices
+  isUniqueValueInSubBoard,
+  getSubBoardIndices,
+  getSubBoardAsOneDimensionalArray
 } = require('../../../src/helpers');
-const { puzzle } = require('../../test-data/sudoku-puzzle-easy');
+
+const { puzzle, solution } = require('../../test-data/sudoku-puzzle-easy');
 
 describe('getRow', () => {
   test('Should return row', () => {
@@ -45,6 +48,20 @@ describe('isUniqueValueInColumn', () => {
   describe('When value is not unique in column', () => {
     test('Should return false', () => {
       expect(isUniqueValueInColumn(1, 2, [1, 3, 1, 2, 5, 9, 7, 4, 8])).toBeFalsy();
+    });
+  });
+});
+
+describe('isUniqueValueInSubBoard', () => {
+  describe('When value is unique in sub board', () => {
+    test('Should return true', () => {
+      expect(isUniqueValueInSubBoard(1, 0, 0, solution)).toBeTruthy();
+    });
+  });
+
+  describe('When value is not unique in sub board', () => {
+    test('Should return false', () => {
+      expect(isUniqueValueInSubBoard(4, 0, 0, puzzle)).toBeFalsy();
     });
   });
 });
@@ -147,5 +164,13 @@ describe('getSubBoardIndices', () => {
         columnEndIndex: 8
       });
     });
+  });
+});
+
+describe('getSubBoardAsOneDimensionalArray', () => {
+  test('Should return sub board', () => {
+    expect(getSubBoardAsOneDimensionalArray(0, 2, 0, 2, puzzle)).toStrictEqual([
+      1, 3, 0, 0, 2, 5, 4, 8, 0
+    ]);
   });
 });

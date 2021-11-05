@@ -1,6 +1,6 @@
 'use strict';
 
-const { TOTAL_ROWS_IN_MINI_BOARD, TOTAL_COLUMNS_IN_MINI_BOARD } = require('../constants');
+const { TOTAL_ROWS_IN_SUB_BOARD, TOTAL_COLUMNS_IN_SUB_BOARD } = require('../constants');
 
 /**
  * This will return the filtered array.
@@ -63,11 +63,11 @@ function isUniqueValueInColumn(value, columnIndex, column) {
  * @returns {{rowStartIndex: number, columnEndIndex: number, rowEndIndex: number, columnStartIndex: number}}
  */
 function getSubBoardIndices(rowIndex, columnIndex) {
-  const rowStartIndex = Math.floor(rowIndex / TOTAL_ROWS_IN_MINI_BOARD) * TOTAL_ROWS_IN_MINI_BOARD;
-  const rowEndIndex = rowStartIndex + TOTAL_ROWS_IN_MINI_BOARD - 1;
+  const rowStartIndex = Math.floor(rowIndex / TOTAL_ROWS_IN_SUB_BOARD) * TOTAL_ROWS_IN_SUB_BOARD;
+  const rowEndIndex = rowStartIndex + TOTAL_ROWS_IN_SUB_BOARD - 1;
   const columnStartIndex =
-    Math.floor(columnIndex / TOTAL_COLUMNS_IN_MINI_BOARD) * TOTAL_COLUMNS_IN_MINI_BOARD;
-  const columnEndIndex = columnStartIndex + TOTAL_COLUMNS_IN_MINI_BOARD - 1;
+    Math.floor(columnIndex / TOTAL_COLUMNS_IN_SUB_BOARD) * TOTAL_COLUMNS_IN_SUB_BOARD;
+  const columnEndIndex = columnStartIndex + TOTAL_COLUMNS_IN_SUB_BOARD - 1;
   return {
     rowStartIndex,
     rowEndIndex,
@@ -76,14 +76,66 @@ function getSubBoardIndices(rowIndex, columnIndex) {
   };
 }
 
-// function isUniqueValueInSubboard(value, rowIndex, columnIndex, board) {
-//   //
-// }
+/**
+ * This will return the sub board as one dimensional array.
+ * @param {number} rowStartIndex
+ * @param {number} rowEndIndex
+ * @param {number} columnStartIndex
+ * @param {number} columnEndIndex
+ * @param {number[][]} board
+ * @returns {number[]}
+ */
+function getSubBoardAsOneDimensionalArray(
+  rowStartIndex,
+  rowEndIndex,
+  columnStartIndex,
+  columnEndIndex,
+  board
+) {
+  let array = [];
+  for (let rowIndex = rowStartIndex; rowIndex <= rowEndIndex; rowIndex++) {
+    for (let columnIndex = columnStartIndex; columnIndex <= columnEndIndex; columnIndex++) {
+      array.push(board[rowIndex][columnIndex]);
+    }
+  }
+  return array;
+}
+
+/**
+ * This will return true if value is unique in the sub board, false otherwise.
+ * @param {number} value The value to check in the sub board.
+ * @param {number} rowIndex The row index of the value in the board.
+ * @param {number} columnIndex The column index of the value in the board.
+ * @param {number[][]} board The sudoku board.
+ * @returns {boolean}
+ */
+function isUniqueValueInSubBoard(value, rowIndex, columnIndex, board) {
+  const { rowStartIndex, rowEndIndex, columnStartIndex, columnEndIndex } = getSubBoardIndices(
+    rowIndex,
+    columnIndex
+  );
+
+  const subBoardAsOneDimensionalArray = getSubBoardAsOneDimensionalArray(
+    rowStartIndex,
+    rowEndIndex,
+    columnStartIndex,
+    columnEndIndex,
+    board
+  );
+
+  const valueIndexToSkip =
+    (rowIndex % TOTAL_ROWS_IN_SUB_BOARD) * TOTAL_ROWS_IN_SUB_BOARD +
+    (columnIndex % TOTAL_COLUMNS_IN_SUB_BOARD);
+
+  return !filteredArray(subBoardAsOneDimensionalArray, valueIndexToSkip).includes(value);
+}
 
 module.exports = {
   getRow,
   getColumn,
   isUniqueValueInRow,
   isUniqueValueInColumn,
-  getSubBoardIndices
+  isUniqueValueInSubBoard,
+  getSubBoardIndices,
+  getSubBoardAsOneDimensionalArray
 };
