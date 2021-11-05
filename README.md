@@ -37,7 +37,7 @@ const input = [ /* this has 81 elements */ ];
 const result = sudokuBox.solve({ input })
 ```
 
-The result will have value like the following:
+The `result` will have value like the following:
 
 ```
 { 
