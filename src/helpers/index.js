@@ -169,6 +169,16 @@ function getMarkup(rowIndex, columnIndex, board) {
   return markupValues;
 }
 
+/**
+ * This will return the markup cell indices.
+ * @param {string} cell This is the cell in format 'row,col'.
+ * @returns {{rowIndex: number, columnIndex: number}}
+ */
+function getMarkupCellIndices(cell) {
+  const [rowIndex, columnIndex] = cell.split(',').map(index => parseInt(index));
+  return { rowIndex, columnIndex };
+}
+
 module.exports = {
   getRow,
   getColumn,
@@ -177,5 +187,6 @@ module.exports = {
   isUniqueValueInColumn,
   isUniqueValueInSubBoard,
   getSubBoardIndices,
-  getSubBoardAsOneDimensionalArray
+  getSubBoardAsOneDimensionalArray,
+  getMarkupCellIndices
 };

@@ -8,7 +8,8 @@ const {
   isUniqueValueInColumn,
   isUniqueValueInSubBoard,
   getSubBoardIndices,
-  getSubBoardAsOneDimensionalArray
+  getSubBoardAsOneDimensionalArray,
+  getMarkupCellIndices
 } = require('../../../src/helpers');
 
 const { puzzle, solution } = require('../../test-data/sudoku-puzzle-easy');
@@ -181,5 +182,11 @@ describe('getMarkup', () => {
     expect(getMarkup(0, 2, puzzle)).toStrictEqual([6, 9]);
     expect(getMarkup(1, 0, puzzle)).toStrictEqual([7]);
     expect(getMarkup(2, 2, puzzle)).toStrictEqual([7, 9]);
+  });
+});
+
+describe('getMarkupCellIndices', () => {
+  test('Should return cell indices', () => {
+    expect(getMarkupCellIndices('0,2')).toStrictEqual({ rowIndex: 0, columnIndex: 2 });
   });
 });

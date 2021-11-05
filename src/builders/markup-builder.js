@@ -10,7 +10,7 @@ function MarkupBuilder(board) {
         if (cell === EMPTY_CELL) {
           return {
             ...rowResult,
-            [`${rowIndex},${columnIndex}`]: { values: getMarkup(rowIndex, columnIndex, board) }
+            [`${rowIndex},${columnIndex}`]: getMarkup(rowIndex, columnIndex, board)
           };
         }
 
