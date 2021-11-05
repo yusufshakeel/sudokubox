@@ -18,7 +18,7 @@ SudokuBox is an open source project that solves 9x9 sudoku puzzle.
 To install this run the following command in the terminal.
 
 ```shell
-$ npm i sudokubox
+npm i sudokubox
 ```
 
 ## Sudoku board
