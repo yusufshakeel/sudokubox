@@ -3,7 +3,23 @@
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/sudokubox)
 [![npm version](https://img.shields.io/badge/npm-0.0.1-blue.svg)](https://www.npmjs.com/package/sudokubox)
 
-Sudoku project
+Sudoku project.
+
+## Table of content
+
+* [Getting started](#getting-started)
+* [Sudoku board](#sudoku-board)
+* [Input](#input)
+* [Output](#output)
+* [License](#license)
+
+## Getting started
+
+To install this run the following command in the terminal.
+
+```shell
+$ npm i sudokubox
+```
 
 ## Sudoku board
 
