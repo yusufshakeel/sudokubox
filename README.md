@@ -21,13 +21,39 @@ To install this run the following command in the terminal.
 npm i sudokubox
 ```
 
+Require `sudokubox`.
+
+```javascript
+const SudokuBox = require('sudokubox');
+```
+
+Create object and pass input.
+
+```javascript
+const sudokuBox = new SudokuBox();
+
+const input = [ /* this has 81 elements */ ];
+
+const result = sudokuBox.solve({ input })
+```
+
+The result will have value like the following:
+
+```
+{ 
+  "isPuzzleSolved": true,
+  "output": [ /* this is a one dimensional array having 81 elements */ ], 
+  "board": [ /* this is a two dimensional 9x9 array */ ]
+}
+```
+
 ## Sudoku board
 
 The board size is 9x9.
 
 ## Input
 
-The input is a **one dimensional array** having 81 numbers.
+The input is a **one dimensional array** having 81 elements.
 
 Use number `0` to denote empty cell.
 
@@ -57,7 +83,7 @@ Note! The array is formatted into lines for readability.
 
 ## Output
 
-The output will be a **one dimensional array** having 81 numbers.
+The output will be a **one dimensional array** having 81 elements.
 
 For the above input array we will get the following output array.
 

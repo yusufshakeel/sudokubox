@@ -4,6 +4,7 @@ const engine = require('../../src/engine');
 
 const {
   input: easyPuzzleInput,
+  output: easyPuzzleOutput,
   solution: easyPuzzleSolution
 } = require('../test-data/sudoku-puzzle-easy');
 
@@ -15,6 +16,7 @@ describe('engine', () => {
       const result = engine({ input: easyPuzzleInput });
       expect(result.isPuzzleSolved).toBeTruthy();
       expect(result.board).toStrictEqual(easyPuzzleSolution);
+      expect(result.output).toStrictEqual(easyPuzzleOutput);
     });
   });
 

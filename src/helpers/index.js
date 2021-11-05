@@ -179,6 +179,18 @@ function getMarkupCellIndices(cell) {
   return { rowIndex, columnIndex };
 }
 
+/**
+ * This will return one dimensional output array from the two dimensional array.
+ * @param {number[][]} board
+ * @returns {number[]}
+ */
+function getOutputArrayFromBoard(board) {
+  return board
+    .join()
+    .split(',')
+    .map(value => parseInt(value));
+}
+
 module.exports = {
   getRow,
   getColumn,
@@ -188,5 +200,6 @@ module.exports = {
   isUniqueValueInSubBoard,
   getSubBoardIndices,
   getSubBoardAsOneDimensionalArray,
-  getMarkupCellIndices
+  getMarkupCellIndices,
+  getOutputArrayFromBoard
 };

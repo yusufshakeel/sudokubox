@@ -9,10 +9,11 @@ const {
   isUniqueValueInSubBoard,
   getSubBoardIndices,
   getSubBoardAsOneDimensionalArray,
-  getMarkupCellIndices
+  getMarkupCellIndices,
+  getOutputArrayFromBoard
 } = require('../../../src/helpers');
 
-const { puzzle, solution } = require('../../test-data/sudoku-puzzle-easy');
+const { puzzle, solution, output } = require('../../test-data/sudoku-puzzle-easy');
 
 describe('getRow', () => {
   test('Should return row', () => {
@@ -188,5 +189,11 @@ describe('getMarkup', () => {
 describe('getMarkupCellIndices', () => {
   test('Should return cell indices', () => {
     expect(getMarkupCellIndices('0,2')).toStrictEqual({ rowIndex: 0, columnIndex: 2 });
+  });
+});
+
+describe('getOutputArrayFromBoard', () => {
+  test('Should return output array', () => {
+    expect(getOutputArrayFromBoard(solution)).toStrictEqual(output);
   });
 });

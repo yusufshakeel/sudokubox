@@ -4,6 +4,7 @@ const BoardBuilder = require('./builders/board-builder');
 const MarkupBuilder = require('./builders/markup-builder');
 const MarkupSolver = require('./solvers/markup-solver');
 const SolutionValidator = require('./validators/solution-validator');
+const { getOutputArrayFromBoard } = require('./helpers');
 
 function engine({ input }) {
   const inputBoard = new BoardBuilder(input).build();
@@ -32,6 +33,7 @@ function engine({ input }) {
 
   return {
     isPuzzleSolved,
+    output: getOutputArrayFromBoard(board),
     board
   };
 }
