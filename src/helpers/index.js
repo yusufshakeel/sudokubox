@@ -1,6 +1,10 @@
 'use strict';
 
-const { TOTAL_ROWS_IN_SUB_BOARD, TOTAL_COLUMNS_IN_SUB_BOARD } = require('../constants');
+const {
+  TOTAL_ROWS_IN_SUB_BOARD,
+  TOTAL_COLUMNS_IN_SUB_BOARD,
+  TOTAL_COLUMNS
+} = require('../constants');
 
 /**
  * This will return the filtered array.
@@ -130,9 +134,45 @@ function isUniqueValueInSubBoard(value, rowIndex, columnIndex, board) {
   return !filteredArray(subBoardAsOneDimensionalArray, valueIndexToSkip).includes(value);
 }
 
+/**
+ * This will return the markup of an empty cell. It is an array of numbers that the cell can have.
+ * @param {number} rowIndex Row index of the cell.
+ * @param {number} columnIndex Column index of the cell.
+ * @param {number[][]} board The sudoku board.
+ * @returns {number[]}
+ */
+function getMarkup(rowIndex, columnIndex, board) {
+  const row = board[rowIndex];
+  const column = getColumn(columnIndex, board);
+  const { rowStartIndex, rowEndIndex, columnStartIndex, columnEndIndex } = getSubBoardIndices(
+    rowIndex,
+    columnIndex
+  );
+  const subBoardAsOneDimensionalArray = getSubBoardAsOneDimensionalArray(
+    rowStartIndex,
+    rowEndIndex,
+    columnStartIndex,
+    columnEndIndex,
+    board
+  );
+
+  let markupValues = [];
+  for (let value = 1; value <= TOTAL_COLUMNS; value++) {
+    if (
+      !row.includes(value) &&
+      !column.includes(value) &&
+      !subBoardAsOneDimensionalArray.includes(value)
+    ) {
+      markupValues.push(value);
+    }
+  }
+  return markupValues;
+}
+
 module.exports = {
   getRow,
   getColumn,
+  getMarkup,
   isUniqueValueInRow,
   isUniqueValueInColumn,
   isUniqueValueInSubBoard,

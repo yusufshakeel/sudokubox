@@ -3,6 +3,7 @@
 const {
   getRow,
   getColumn,
+  getMarkup,
   isUniqueValueInRow,
   isUniqueValueInColumn,
   isUniqueValueInSubBoard,
@@ -172,5 +173,13 @@ describe('getSubBoardAsOneDimensionalArray', () => {
     expect(getSubBoardAsOneDimensionalArray(0, 2, 0, 2, puzzle)).toStrictEqual([
       1, 3, 0, 0, 2, 5, 4, 8, 0
     ]);
+  });
+});
+
+describe('getMarkup', () => {
+  test('Should return markup of a cell', () => {
+    expect(getMarkup(0, 2, puzzle)).toStrictEqual([6, 9]);
+    expect(getMarkup(1, 0, puzzle)).toStrictEqual([7]);
+    expect(getMarkup(2, 2, puzzle)).toStrictEqual([7, 9]);
   });
 });
