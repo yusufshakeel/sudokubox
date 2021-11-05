@@ -7,6 +7,18 @@ const {
 } = require('../constants');
 
 /**
+ * This will return filtered markup
+ * @param {[string]} cells
+ * @param {{string: [number]}} markup
+ * @returns {*}
+ */
+const filterMarkup = (cells, markup) => {
+  return cells.reduce((result, cell) => {
+    return { ...result, [cell]: markup[cell] };
+  }, {});
+};
+
+/**
  * This will return the filtered array.
  * @param {number[]} array The array can be a row or column.
  * @param {number} indexToSkip The index in the array to skip.
@@ -198,14 +210,11 @@ function getOutputArrayFromBoard(board) {
  * @returns {{string: [number]}}
  */
 function getRowMarkup(rowIndex, markup) {
-  return Object.keys(markup)
-    .filter(cell => {
-      const { rowIndex: markupCellRowIndex } = getMarkupCellIndices(cell);
-      return rowIndex === markupCellRowIndex;
-    })
-    .reduce((result, cell) => {
-      return { ...result, [cell]: markup[cell] };
-    }, {});
+  const cells = Object.keys(markup).filter(cell => {
+    const { rowIndex: markupCellRowIndex } = getMarkupCellIndices(cell);
+    return rowIndex === markupCellRowIndex;
+  });
+  return filterMarkup(cells, markup);
 }
 
 /**
@@ -215,14 +224,11 @@ function getRowMarkup(rowIndex, markup) {
  * @returns {{string: [number]}}
  */
 function getColumnMarkup(columnIndex, markup) {
-  return Object.keys(markup)
-    .filter(cell => {
-      const { columnIndex: markupCellColumnIndex } = getMarkupCellIndices(cell);
-      return columnIndex === markupCellColumnIndex;
-    })
-    .reduce((result, cell) => {
-      return { ...result, [cell]: markup[cell] };
-    }, {});
+  const cells = Object.keys(markup).filter(cell => {
+    const { columnIndex: markupCellColumnIndex } = getMarkupCellIndices(cell);
+    return columnIndex === markupCellColumnIndex;
+  });
+  return filterMarkup(cells, markup);
 }
 
 module.exports = {
