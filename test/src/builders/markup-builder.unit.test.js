@@ -5,7 +5,7 @@ const { puzzle, markup } = require('../../test-data/sudoku-puzzle-easy');
 
 describe('MarkupBuilder', () => {
   test('Should return markup', () => {
-    const markupBuilder = new MarkupBuilder(puzzle);
-    expect(markupBuilder.build()).toStrictEqual(markup);
+    const markupBuilder = new MarkupBuilder();
+    expect(markupBuilder.withBoard(puzzle).build()).toStrictEqual(markup);
   });
 });
