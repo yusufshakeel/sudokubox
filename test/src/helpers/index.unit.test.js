@@ -4,7 +4,8 @@ const {
   getRow,
   getColumn,
   isUniqueValueInRow,
-  isUniqueValueInColumn
+  isUniqueValueInColumn,
+  getSubBoardIndices
 } = require('../../../src/helpers');
 const { puzzle } = require('../../test-data/sudoku-puzzle-easy');
 
@@ -44,6 +45,107 @@ describe('isUniqueValueInColumn', () => {
   describe('When value is not unique in column', () => {
     test('Should return false', () => {
       expect(isUniqueValueInColumn(1, 2, [1, 3, 1, 2, 5, 9, 7, 4, 8])).toBeFalsy();
+    });
+  });
+});
+
+describe('getSubBoardIndices', () => {
+  describe('When cell in sub board #1', () => {
+    test('Should return sub board indices', () => {
+      expect(getSubBoardIndices(2, 2)).toStrictEqual({
+        rowStartIndex: 0,
+        rowEndIndex: 2,
+        columnStartIndex: 0,
+        columnEndIndex: 2
+      });
+    });
+  });
+
+  describe('When cell in sub board #2', () => {
+    test('Should return sub board indices', () => {
+      expect(getSubBoardIndices(2, 5)).toStrictEqual({
+        rowStartIndex: 0,
+        rowEndIndex: 2,
+        columnStartIndex: 3,
+        columnEndIndex: 5
+      });
+    });
+  });
+
+  describe('When cell in sub board #3', () => {
+    test('Should return sub board indices', () => {
+      expect(getSubBoardIndices(2, 7)).toStrictEqual({
+        rowStartIndex: 0,
+        rowEndIndex: 2,
+        columnStartIndex: 6,
+        columnEndIndex: 8
+      });
+    });
+  });
+
+  describe('When cell in sub board #4', () => {
+    test('Should return sub board indices', () => {
+      expect(getSubBoardIndices(5, 2)).toStrictEqual({
+        rowStartIndex: 3,
+        rowEndIndex: 5,
+        columnStartIndex: 0,
+        columnEndIndex: 2
+      });
+    });
+  });
+
+  describe('When cell in sub board #5', () => {
+    test('Should return sub board indices', () => {
+      expect(getSubBoardIndices(5, 5)).toStrictEqual({
+        rowStartIndex: 3,
+        rowEndIndex: 5,
+        columnStartIndex: 3,
+        columnEndIndex: 5
+      });
+    });
+  });
+
+  describe('When cell in sub board #6', () => {
+    test('Should return sub board indices', () => {
+      expect(getSubBoardIndices(5, 8)).toStrictEqual({
+        rowStartIndex: 3,
+        rowEndIndex: 5,
+        columnStartIndex: 6,
+        columnEndIndex: 8
+      });
+    });
+  });
+
+  describe('When cell in sub board #7', () => {
+    test('Should return sub board indices', () => {
+      expect(getSubBoardIndices(7, 2)).toStrictEqual({
+        rowStartIndex: 6,
+        rowEndIndex: 8,
+        columnStartIndex: 0,
+        columnEndIndex: 2
+      });
+    });
+  });
+
+  describe('When cell in sub board #8', () => {
+    test('Should return sub board indices', () => {
+      expect(getSubBoardIndices(7, 5)).toStrictEqual({
+        rowStartIndex: 6,
+        rowEndIndex: 8,
+        columnStartIndex: 3,
+        columnEndIndex: 5
+      });
+    });
+  });
+
+  describe('When cell in sub board #9', () => {
+    test('Should return sub board indices', () => {
+      expect(getSubBoardIndices(7, 8)).toStrictEqual({
+        rowStartIndex: 6,
+        rowEndIndex: 8,
+        columnStartIndex: 6,
+        columnEndIndex: 8
+      });
     });
   });
 });
