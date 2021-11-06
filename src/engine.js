@@ -8,14 +8,13 @@ const PreemptiveSetSolver = require('./solvers/preemptive-set-solver');
 const SolutionValidator = require('./validators/solution-validator');
 const { getOutputArrayFromBoard } = require('./helpers');
 
-function engine({ input }) {
-  const inputBoard = new BoardBuilder(input).build();
-  const markupBuilder = new MarkupBuilder();
-  const preemptiveSetBuilder = new PreemptiveSetBuilder();
-  const markupSolver = new MarkupSolver();
-  const preemptiveSetSolver = new PreemptiveSetSolver();
-  const solutionValidator = new SolutionValidator();
+const markupBuilder = new MarkupBuilder();
+const preemptiveSetBuilder = new PreemptiveSetBuilder();
+const markupSolver = new MarkupSolver();
+const preemptiveSetSolver = new PreemptiveSetSolver();
+const solutionValidator = new SolutionValidator();
 
+function solveBoard({ inputBoard }) {
   let board = [...inputBoard];
   let isPuzzleSolved = false;
 
@@ -42,6 +41,12 @@ function engine({ input }) {
     output: getOutputArrayFromBoard(board),
     board
   };
+}
+
+function engine({ input }) {
+  const inputBoard = new BoardBuilder(input).build();
+  const { isPuzzleSolved, output, board } = solveBoard({ inputBoard });
+  return { isPuzzleSolved, output, board };
 }
 
 module.exports = engine;
