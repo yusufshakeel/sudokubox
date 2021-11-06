@@ -1,7 +1,7 @@
 # sudokubox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/sudokubox)
-[![npm version](https://img.shields.io/badge/npm-0.3.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
+[![npm version](https://img.shields.io/badge/npm-0.4.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
 
 SudokuBox is an open source project that solves 9x9 sudoku puzzle.
 
@@ -62,10 +62,6 @@ Use number `0` to denote empty cell.
 Use number `1` to `9` to denote filled cell.
 
 Following is a sample sudoku board.
-
-![sudoku puzzle](./docs/sample-puzzle.jpg)
-
-And following is the input array corresponding to the above sudoku board.
 
 Note! The array is formatted into lines for readability.
 
