@@ -12,11 +12,10 @@ function engine({ input }) {
   const markupSolver = new MarkupSolver();
   const solutionValidator = new SolutionValidator();
 
-  let shouldRecheck = true;
   let board = [...inputBoard];
   let isPuzzleSolved = false;
 
-  while (shouldRecheck) {
+  while (!isPuzzleSolved) {
     const markup = markupBuilder.withBoard(board).build();
     const { isBoardChanged, board: enrichedBoard } = markupSolver.solve(markup, board);
     isPuzzleSolved = solutionValidator.isSolved(enrichedBoard);
