@@ -19,7 +19,9 @@ const {
   isSubBoardPreemptiveSet,
   segregateMarkup,
   getMatchingMarkupByValues,
-  filterMarkup
+  filterMarkup,
+  omitMarkup,
+  updateBoardMarkupUsingPreemptiveSet
 } = require('../../../src/helpers');
 
 const { puzzle, solution, output } = require('../../test-data/sudoku-puzzle-easy');
@@ -342,6 +344,85 @@ describe('filterMarkup', () => {
   describe('When cells are not present in the markup', () => {
     test('Should return matching markup', () => {
       expect(filterMarkup(['2,3'], { '0,0': [1, 2], '0,1': [2, 3] })).toStrictEqual({});
+    });
+  });
+});
+
+describe('omitMarkup', () => {
+  describe('When markup has cells to omit', () => {
+    test('Should return markup after omitting the cells', () => {
+      expect(omitMarkup(['0,1'], { '0,1': [1, 2], '2,2': [5, 6] })).toStrictEqual({
+        '2,2': [5, 6]
+      });
+    });
+  });
+
+  describe('When markup does not have cells to omit', () => {
+    test('Should return the markup', () => {
+      expect(omitMarkup(['0,1'], { '1,1': [1, 2], '2,2': [5, 6] })).toStrictEqual({
+        '1,1': [1, 2],
+        '2,2': [5, 6]
+      });
+    });
+  });
+
+  describe('When markup only has cells that will be omittes', () => {
+    test('Should return empty object', () => {
+      expect(omitMarkup(['1,1', '2,1'], { '1,1': [1, 2], '2,1': [5, 6] })).toStrictEqual({});
+    });
+  });
+});
+
+describe('updateBoardMarkupUsingPreemptiveSet', () => {
+  describe('When markup of a cell has more than one possible values', () => {
+    test('Should return updated markup for the board', () => {
+      const boardMarkup = {
+        '7,0': [1, 8],
+        '7,6': [1, 5],
+        '7,7': [1, 5]
+      };
+      const preemptiveSet = {
+        cells: ['7,6', '7,7'],
+        id: '7,6-7,7',
+        size: 2,
+        values: [1, 5]
+      };
+      const markupToUpdate = {
+        '7,0': [1, 8]
+      };
+      expect(
+        updateBoardMarkupUsingPreemptiveSet(boardMarkup, preemptiveSet, markupToUpdate)
+      ).toStrictEqual({
+        '7,0': [8],
+        '7,6': [1, 5],
+        '7,7': [1, 5]
+      });
+    });
+  });
+
+  describe('When markup of a cell has only one value', () => {
+    test('Should return same markup for the board', () => {
+      const boardMarkup = {
+        '7,0': [8],
+        '7,6': [1, 5],
+        '7,7': [1, 5]
+      };
+      const preemptiveSet = {
+        cells: ['7,6', '7,7'],
+        id: '7,6-7,7',
+        size: 2,
+        values: [1, 5]
+      };
+      const markupToUpdate = {
+        '7,0': [1, 8]
+      };
+      expect(
+        updateBoardMarkupUsingPreemptiveSet(boardMarkup, preemptiveSet, markupToUpdate)
+      ).toStrictEqual({
+        '7,0': [8],
+        '7,6': [1, 5],
+        '7,7': [1, 5]
+      });
     });
   });
 });

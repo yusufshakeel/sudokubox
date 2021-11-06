@@ -1,5 +1,12 @@
 'use strict';
 
+function isEmpty(o) {
+  if (Array.isArray(o) && o.length === 0) {
+    return true;
+  }
+  return typeof o === 'object' && Object.keys(o).length === 0;
+}
+
 function arrayEquals(a, b) {
   const aSorted = a.sort();
   const bSorted = b.sort();
@@ -11,4 +18,4 @@ function arrayEquals(a, b) {
   );
 }
 
-module.exports = { arrayEquals };
+module.exports = { arrayEquals, isEmpty };

@@ -8,6 +8,19 @@ const {
 const { arrayEquals } = require('./helper');
 
 /**
+ * This will omit the provided cells from the markup.
+ * @param {string[]} cells
+ * @param {{string: [number]}} markup This will be something like { "r,c": [1,2,...] }
+ * @returns {{string: [number]}}
+ */
+function omitMarkup(cells, markup) {
+  return Object.entries(markup).reduce((result, current) => {
+    const [cell, values] = current;
+    return cells.includes(cell) ? result : { ...result, [cell]: values };
+  }, {});
+}
+
+/**
  * This will return filtered markup based on the cells provided.
  * @param {[string]} cells This will be something like ["r,c", ...]
  * @param {{string: [number]}} markup This will be something like { "r,c": [1,2,...] }
@@ -338,6 +351,27 @@ function getMatchingMarkupByValues(values, markup) {
   }, []);
 }
 
+/**
+ * This will return updated markup.
+ * @param {{string: [number]}} boardMarkup This will be like { "r,c": [1,2,...] }
+ * @param preemptiveSet
+ * @param {{string: [number]}} markupToUpdate This will be like { "r,c": [1,2,...] }
+ * @returns {{string: [number]}}
+ */
+function updateBoardMarkupUsingPreemptiveSet(boardMarkup, preemptiveSet, markupToUpdate) {
+  const enrichedBoardMarkup = { ...boardMarkup };
+  const { values: preemptiveSetValues } = preemptiveSet;
+  Object.entries(markupToUpdate).forEach(current => {
+    const [cell, currentValues] = current;
+    const filteredValues = currentValues.filter(v => !preemptiveSetValues.includes(v));
+    const currentValuesInMarkupForTheCell = enrichedBoardMarkup[cell];
+    if (currentValuesInMarkupForTheCell.length > 1) {
+      enrichedBoardMarkup[cell] = filteredValues;
+    }
+  });
+  return enrichedBoardMarkup;
+}
+
 module.exports = {
   getRow,
   getColumn,
@@ -357,5 +391,7 @@ module.exports = {
   isSubBoardPreemptiveSet,
   segregateMarkup,
   getMatchingMarkupByValues,
-  filterMarkup
+  filterMarkup,
+  omitMarkup,
+  updateBoardMarkupUsingPreemptiveSet
 };

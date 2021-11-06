@@ -1,6 +1,6 @@
 'use strict';
 
-const { arrayEquals } = require('../../../src/helpers/helper');
+const { arrayEquals, isEmpty } = require('../../../src/helpers/helper');
 
 describe('arrayEquals', () => {
   describe('When arrays are equal', () => {
@@ -13,6 +13,36 @@ describe('arrayEquals', () => {
   describe('When arrays are not equal', () => {
     test('Should return false', () => {
       expect(arrayEquals([1, 2, 3], [1, 1, 3])).toBeFalsy();
+    });
+  });
+});
+
+describe('isEmpty', () => {
+  describe('When checking array', () => {
+    describe('When array is empty', () => {
+      test('Should return true', () => {
+        expect(isEmpty([])).toBeTruthy();
+      });
+    });
+
+    describe('When array is not empty', () => {
+      test('Should return false', () => {
+        expect(isEmpty([1, 2])).toBeFalsy();
+      });
+    });
+  });
+
+  describe('When checking object', () => {
+    describe('When object is empty', () => {
+      test('Should return true', () => {
+        expect(isEmpty({})).toBeTruthy();
+      });
+    });
+
+    describe('When object is not empty', () => {
+      test('Should return false', () => {
+        expect(isEmpty({ key: 'value' })).toBeFalsy();
+      });
     });
   });
 });
