@@ -16,8 +16,8 @@ function engine({ input }) {
   let isPuzzleSolved = false;
 
   while (!isPuzzleSolved) {
-    const markup = markupBuilder.withBoard(board).build();
-    const { isBoardChanged, board: enrichedBoard } = markupSolver.solve(markup, board);
+    let markup = markupBuilder.withBoard(board).build();
+    let { isBoardChanged, board: enrichedBoard } = markupSolver.solve(markup, board);
     isPuzzleSolved = solutionValidator.isSolved(enrichedBoard);
 
     if (isPuzzleSolved) {
