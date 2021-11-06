@@ -7,9 +7,9 @@ const {
 } = require('../constants');
 
 /**
- * This will return filtered markup
- * @param {[string]} cells
- * @param {{string: [number]}} markup
+ * This will return filtered markup based on the cells provided.
+ * @param {[string]} cells This will be something like ["r,c", ...]
+ * @param {{string: [number]}} markup This will be something like { "r,c": [1,2,...] }
  * @returns {*}
  */
 const filterMarkup = (cells, markup) => {
@@ -73,9 +73,15 @@ function isUniqueValueInColumn(value, rowIndex, column) {
 }
 
 /**
- * This will return the sub board indices.
- * @param {number} rowIndex
- * @param {number} columnIndex
+ * This will return the sub board indices in which the given rowIndex and columnIndex falls.
+ *
+ * Example: If rowIndex is 1 and columnIndex 1 then the cell(1,1) is inside the top-left sub board.
+ *
+ * Therefore, the sub board indices that will be returned is row [0, 2] and column [0, 2] both
+ * inclusive.
+ *
+ * @param {number} rowIndex The row index of the board.
+ * @param {number} columnIndex The column index of the board.
  * @returns {{rowStartIndex: number, columnEndIndex: number, rowEndIndex: number, columnStartIndex: number}}
  */
 function getSubBoardIndices(rowIndex, columnIndex) {
@@ -93,7 +99,7 @@ function getSubBoardIndices(rowIndex, columnIndex) {
 }
 
 /**
- * This will return the sub board as one dimensional array.
+ * This will return the sub board as a one dimensional array.
  * @param {number} rowStartIndex
  * @param {number} rowEndIndex
  * @param {number} columnStartIndex
@@ -192,7 +198,7 @@ function getMarkupCellIndices(cell) {
 }
 
 /**
- * This will return one dimensional output array from the two dimensional array.
+ * This will return a one dimensional output array from the two dimensional board array.
  * @param {number[][]} board
  * @returns {number[]}
  */
@@ -204,7 +210,7 @@ function getOutputArrayFromBoard(board) {
 }
 
 /**
- * This will return markup for the row.
+ * This will return markups found along the given row.
  * @param {number} rowIndex
  * @param {{string: [number]}} markup
  * @returns {{string: [number]}}
@@ -218,7 +224,7 @@ function getRowMarkup(rowIndex, markup) {
 }
 
 /**
- * This will return markup for the column.
+ * This will return markups found along the given column.
  * @param {number} columnIndex
  * @param {{string: [number]}} markup
  * @returns {{string: [number]}}
@@ -232,10 +238,16 @@ function getColumnMarkup(columnIndex, markup) {
 }
 
 /**
- * This will return markup for the sub board.
- * @param {number} rowIndex
- * @param {number} columnIndex
- * @param {{string: [number]}} markup
+ * This will return markups found within a given sub board with respect to the rowIndex and
+ * columnIndex provided.
+ *
+ * Example: If rowIndex is 1 and columnIndex is 0 then the cell(1,0) is inside top-left sub board.
+ *
+ * Therefore, this function will return markups found inside the top-left sub board.
+ *
+ * @param {number} rowIndex The row index of a cell in the board.
+ * @param {number} columnIndex The column index of a cell in the board.
+ * @param {{string: [number]}} markup This will be like { "r,c": [1,2,...] }
  * @returns {{string: [number]}}
  */
 function getSubBoardMarkup(rowIndex, columnIndex, markup) {
