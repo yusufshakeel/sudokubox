@@ -21,22 +21,6 @@ function engine({ input }) {
 
   while (!isPuzzleSolved) {
     const markup = markupBuilder.withBoard(board).build();
-    const { isBoardChanged, board: enrichedBoard } = markupSolver.solve(markup, board);
-    isPuzzleSolved = solutionValidator.isSolved(enrichedBoard);
-
-    board = [...enrichedBoard];
-
-    if (isPuzzleSolved) {
-      break;
-    }
-
-    if (!isBoardChanged) {
-      break;
-    }
-  }
-
-  while (!isPuzzleSolved) {
-    const markup = markupBuilder.withBoard(board).build();
     const preemptiveSets = preemptiveSetBuilder.withMarkup(markup).build();
     const updatedMarkup = preemptiveSetSolver.solve(preemptiveSets, markup);
     const { isBoardChanged, board: enrichedBoard } = markupSolver.solve(updatedMarkup, board);
