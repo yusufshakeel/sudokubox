@@ -7,7 +7,7 @@ function MarkupBuilder() {
   const self = this;
 
   this.withBoard = board => {
-    self.board = board;
+    self.board = [...board];
     return self;
   };
 
