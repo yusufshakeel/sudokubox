@@ -5,6 +5,7 @@ const {
   TOTAL_COLUMNS_IN_SUB_BOARD,
   TOTAL_COLUMNS
 } = require('../constants');
+const { arrayEquals } = require('./helper');
 
 /**
  * This will return filtered markup based on the cells provided.
@@ -14,7 +15,7 @@ const {
  */
 const filterMarkup = (cells, markup) => {
   return cells.reduce((result, cell) => {
-    return { ...result, [cell]: markup[cell] };
+    return markup[cell] ? { ...result, [cell]: markup[cell] } : result;
   }, {});
 };
 
@@ -212,7 +213,7 @@ function getOutputArrayFromBoard(board) {
 /**
  * This will return markups found along the given row.
  * @param {number} rowIndex
- * @param {{string: [number]}} markup
+ * @param {{string: [number]}} markup This will be like { "r,c": [1,2,...] }
  * @returns {{string: [number]}}
  */
 function getRowMarkup(rowIndex, markup) {
@@ -226,7 +227,7 @@ function getRowMarkup(rowIndex, markup) {
 /**
  * This will return markups found along the given column.
  * @param {number} columnIndex
- * @param {{string: [number]}} markup
+ * @param {{string: [number]}} markup This will be like { "r,c": [1,2,...] }
  * @returns {{string: [number]}}
  */
 function getColumnMarkup(columnIndex, markup) {
@@ -267,6 +268,76 @@ function getSubBoardMarkup(rowIndex, columnIndex, markup) {
   return filterMarkup(cells, markup);
 }
 
+/**
+ * This will return true if the cells of the preemptive set is along a row, false otherwise.
+ * @param preemptiveSet
+ * @returns {boolean}
+ */
+function isRowPreemptiveSet(preemptiveSet) {
+  const rowIndices = preemptiveSet.cells.map(cell => getMarkupCellIndices(cell).rowIndex);
+  return rowIndices.every(index => rowIndices[0] === index);
+}
+
+/**
+ * This will return true if the cells of the preemptive set is along a column, false otherwise.
+ * @param preemptiveSet
+ * @returns {boolean}
+ */
+function isColumnPreemptiveSet(preemptiveSet) {
+  const columnIndices = preemptiveSet.cells.map(cell => getMarkupCellIndices(cell).columnIndex);
+  return columnIndices.every(index => columnIndices[0] === index);
+}
+
+/**
+ * This will return true if the cells of the preemptive set in the same sub board, false otherwise.
+ * @param preemptiveSet
+ * @returns {boolean}
+ */
+function isSubBoardPreemptiveSet(preemptiveSet) {
+  const cells = preemptiveSet.cells.map(cell => getMarkupCellIndices(cell));
+  const { rowStartIndex, rowEndIndex, columnStartIndex, columnEndIndex } = getSubBoardIndices(
+    cells[0].rowIndex,
+    cells[0].columnIndex
+  );
+  return cells.every(({ rowIndex, columnIndex }) => {
+    return (
+      rowIndex >= rowStartIndex &&
+      rowIndex <= rowEndIndex &&
+      columnIndex >= columnStartIndex &&
+      columnIndex <= columnEndIndex
+    );
+  });
+}
+
+/**
+ * This will return segregated markup by the length of values.
+ * @param {{string: [number]}} markup This will be like { "r,c": [1,2,...] }
+ * @returns {{ number: [{string: number[]}] }}
+ */
+function segregateMarkup(markup) {
+  return Object.entries(markup).reduce((result, current) => {
+    const [cell, values] = current;
+    const count = values.length;
+    return {
+      ...result,
+      [count]: { ...result[count], [cell]: values }
+    };
+  }, {});
+}
+
+/**
+ * This will return filtered markup by values.
+ * @param {number[]} values This is an array of numbers like [1,2,...]
+ * @param {{string: [number]}} markup This will be like { "r,c": [1,2,...] }
+ * @returns {[string]} The array of cells
+ */
+function getMatchingMarkupByValues(values, markup) {
+  return Object.entries(markup).reduce((result, current) => {
+    const [cell, currentValues] = current;
+    return arrayEquals(values, currentValues) ? [...result, cell] : result;
+  }, []);
+}
+
 module.exports = {
   getRow,
   getColumn,
@@ -280,5 +351,11 @@ module.exports = {
   getOutputArrayFromBoard,
   getRowMarkup,
   getColumnMarkup,
-  getSubBoardMarkup
+  getSubBoardMarkup,
+  isRowPreemptiveSet,
+  isColumnPreemptiveSet,
+  isSubBoardPreemptiveSet,
+  segregateMarkup,
+  getMatchingMarkupByValues,
+  filterMarkup
 };

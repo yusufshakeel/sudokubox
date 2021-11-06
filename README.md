@@ -47,6 +47,8 @@ The `result` will have value like the following:
 }
 ```
 
+If `isPuzzleSolved` is `false` then the puzzle was not solved.
+
 ## Sudoku board
 
 The board size is 9x9.
