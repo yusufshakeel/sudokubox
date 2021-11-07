@@ -72,6 +72,13 @@ function solveBoard({
 
 function engine({ input, sudokuBoxConfig }) {
   const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose });
+
+  logging.debug({
+    moduleName: 'Engine',
+    functionName: 'engine',
+    message: 'ENTERED engine block'
+  });
+
   const inputBoard = new BoardBuilder(input).build();
 
   try {
@@ -98,6 +105,13 @@ function engine({ input, sudokuBoxConfig }) {
     preemptiveSetSolver,
     solutionValidator
   });
+
+  logging.debug({
+    moduleName: 'Engine',
+    functionName: 'engine',
+    message: 'EXITING engine block'
+  });
+
   return { isPuzzleSolved, output, board };
 }
 
