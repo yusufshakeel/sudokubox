@@ -33,6 +33,12 @@ function PreemptiveSetBuilder(config) {
   };
 
   this.build = () => {
+    logging.debug({
+      moduleName: 'PreemptiveSetBuilder',
+      functionName: 'build',
+      message: 'ENTERED build block'
+    });
+
     const segregatedMarkup = segregateMarkup(self.markup);
 
     const segregatedMarkupGroupSizes = Object.keys(segregatedMarkup)

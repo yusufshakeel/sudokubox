@@ -13,6 +13,12 @@ function MarkupBuilder(config) {
   };
 
   this.build = () => {
+    logging.debug({
+      moduleName: 'MarkupBuilder',
+      functionName: 'build',
+      message: 'ENTERED build block'
+    });
+
     const markup = self.board.reduce((result, row, rowIndex) => {
       const rowResult = row.reduce((rowResult, cell, columnIndex) => {
         if (cell === EMPTY_CELL) {
