@@ -42,52 +42,54 @@ function PreemptiveSetBuilder(config) {
 
     const segregatedMarkup = segregateMarkup(self.markup);
 
-    const segregatedMarkupGroupSizes = Object.keys(segregatedMarkup)
+    const segregatedMarkupByValuesSize = Object.keys(segregatedMarkup)
       .map(v => parseInt(v))
       .sort();
 
-    const numberOfMarkupGroups = segregatedMarkupGroupSizes.length;
-
     let preemptiveSets = [];
 
-    for (
-      let markupGroupSize = 2;
-      markupGroupSize <= segregatedMarkupGroupSizes[numberOfMarkupGroups - 1];
-      markupGroupSize++
-    ) {
-      const markupByGroupSize = segregatedMarkup[markupGroupSize];
+    segregatedMarkupByValuesSize.forEach(markupValuesSize => {
+      if (markupValuesSize > 1) {
+        const markupByGroupSize = segregatedMarkup[markupValuesSize];
+        Object.entries(markupByGroupSize).forEach(current => {
+          const [currentCell, currentCellValues] = current;
 
-      Object.entries(markupByGroupSize).forEach(current => {
-        const [currentCell, currentCellValues] = current;
+          const { rowIndex: currentCellRowIndex, columnIndex: currentCellColumnIndex } =
+            getMarkupCellIndices(currentCell);
 
-        const { rowIndex: currentCellRowIndex, columnIndex: currentCellColumnIndex } =
-          getMarkupCellIndices(currentCell);
+          const matchingMarkupCells = getMatchingMarkupByValues(
+            currentCellValues,
+            markupByGroupSize
+          );
 
-        const matchingMarkupCells = getMatchingMarkupByValues(currentCellValues, markupByGroupSize);
+          const filteredMarkup = filterMarkup(matchingMarkupCells, markupByGroupSize);
 
-        const filteredMarkup = filterMarkup(matchingMarkupCells, markupByGroupSize);
+          const rowMarkup = getRowMarkup(currentCellRowIndex, filteredMarkup);
 
-        const rowMarkup = getRowMarkup(currentCellRowIndex, filteredMarkup);
+          const columnMarkup = getColumnMarkup(currentCellColumnIndex, filteredMarkup);
 
-        const columnMarkup = getColumnMarkup(currentCellColumnIndex, filteredMarkup);
+          const subBoardMarkup = getSubBoardMarkup(
+            currentCellRowIndex,
+            currentCellColumnIndex,
+            filteredMarkup
+          );
 
-        const subBoardMarkup = getSubBoardMarkup(
-          currentCellRowIndex,
-          currentCellColumnIndex,
-          filteredMarkup
-        );
-
-        if (Object.keys(rowMarkup).length === markupGroupSize) {
-          preemptiveSets = updatePreemptiveSets(preemptiveSets, currentCellValues, rowMarkup);
-        }
-        if (Object.keys(columnMarkup).length === markupGroupSize) {
-          preemptiveSets = updatePreemptiveSets(preemptiveSets, currentCellValues, columnMarkup);
-        }
-        if (Object.keys(subBoardMarkup).length === markupGroupSize) {
-          preemptiveSets = updatePreemptiveSets(preemptiveSets, currentCellValues, subBoardMarkup);
-        }
-      });
-    }
+          if (Object.keys(rowMarkup).length === markupValuesSize) {
+            preemptiveSets = updatePreemptiveSets(preemptiveSets, currentCellValues, rowMarkup);
+          }
+          if (Object.keys(columnMarkup).length === markupValuesSize) {
+            preemptiveSets = updatePreemptiveSets(preemptiveSets, currentCellValues, columnMarkup);
+          }
+          if (Object.keys(subBoardMarkup).length === markupValuesSize) {
+            preemptiveSets = updatePreemptiveSets(
+              preemptiveSets,
+              currentCellValues,
+              subBoardMarkup
+            );
+          }
+        });
+      }
+    });
 
     logging.debug({ moduleName: 'PreemptiveSetBuilder', functionName: 'build', preemptiveSets });
     return preemptiveSets;
