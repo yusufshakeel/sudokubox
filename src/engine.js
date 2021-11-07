@@ -13,6 +13,7 @@ const LoggingHelper = require('./helpers/logging-helper');
 /**
  * This will solve the board.
  * @param {number[]} inputBoard
+ * @param {LoggingHelper} logging
  * @param {MarkupBuilder} markupBuilder
  * @param {PreemptiveSetBuilder} preemptiveSetBuilder
  * @param {MarkupSolver} markupSolver
@@ -22,12 +23,19 @@ const LoggingHelper = require('./helpers/logging-helper');
  */
 function solveBoard({
   inputBoard,
+  logging,
   markupBuilder,
   preemptiveSetBuilder,
   markupSolver,
   preemptiveSetSolver,
   solutionValidator
 }) {
+  logging.debug({
+    moduleName: 'Engine',
+    functionName: 'solveBoard',
+    message: 'ENTERED solveBoard block'
+  });
+
   let board = [...inputBoard];
   let isPuzzleSolved = false;
 
@@ -48,6 +56,12 @@ function solveBoard({
       break;
     }
   }
+
+  logging.debug({
+    moduleName: 'Engine',
+    functionName: 'solveBoard',
+    message: 'EXITING solveBoard block'
+  });
 
   return {
     isPuzzleSolved,
@@ -77,6 +91,7 @@ function engine({ input, sudokuBoxConfig }) {
 
   const { isPuzzleSolved, output, board } = solveBoard({
     inputBoard,
+    logging,
     markupBuilder,
     preemptiveSetBuilder,
     markupSolver,

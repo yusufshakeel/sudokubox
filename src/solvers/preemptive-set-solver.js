@@ -17,6 +17,12 @@ function PreemptiveSetSolver(config) {
   const { logging } = config;
 
   this.solve = (preemptiveSets, markup) => {
+    logging.debug({
+      moduleName: 'PreemptiveSetSolver',
+      functionName: 'solve',
+      message: 'ENTERED solve block'
+    });
+
     let boardMarkup = { ...markup };
 
     preemptiveSets.forEach(preemptiveSet => {

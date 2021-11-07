@@ -13,7 +13,7 @@ function MarkupBuilder(config) {
   };
 
   this.build = () => {
-    return self.board.reduce((result, row, rowIndex) => {
+    const markup = self.board.reduce((result, row, rowIndex) => {
       const rowResult = row.reduce((rowResult, cell, columnIndex) => {
         if (cell === EMPTY_CELL) {
           return {
@@ -25,11 +25,11 @@ function MarkupBuilder(config) {
         return rowResult;
       }, {});
 
-      const markup = { ...result, ...rowResult };
-      logging.debug({ moduleName: 'MarkupBuilder', functionName: 'build', markup });
-
-      return markup;
+      return { ...result, ...rowResult };
     }, {});
+
+    logging.debug({ moduleName: 'MarkupBuilder', functionName: 'build', markup });
+    return markup;
   };
 }
 

@@ -6,6 +6,12 @@ function MarkupSolver(config) {
   const { logging } = config;
 
   this.solve = (markup, board) => {
+    logging.debug({
+      moduleName: 'MarkupSolver',
+      functionName: 'solve',
+      message: 'ENTERED solve block'
+    });
+
     let isBoardChanged = false;
     let partiallySolvedBoard = [...board];
     Object.entries(markup).forEach(([cell, value]) => {
