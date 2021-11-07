@@ -3,7 +3,8 @@
 const { EMPTY_CELL } = require('../constants');
 const { getMarkup } = require('../helpers');
 
-function MarkupBuilder() {
+function MarkupBuilder(config) {
+  const { logging } = config;
   const self = this;
 
   this.withBoard = board => {
@@ -24,7 +25,10 @@ function MarkupBuilder() {
         return rowResult;
       }, {});
 
-      return { ...result, ...rowResult };
+      const markup = { ...result, ...rowResult };
+      logging.debug({ moduleName: 'MarkupBuilder', functionName: 'build', markup });
+
+      return markup;
     }, {});
   };
 }

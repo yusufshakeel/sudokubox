@@ -8,6 +8,7 @@ const PreemptiveSetSolver = require('./solvers/preemptive-set-solver');
 const SolutionValidator = require('./validators/solution-validator');
 const InputValidator = require('./validators/input-validator');
 const { getOutputArrayFromBoard } = require('./helpers');
+const LoggingHelper = require('./helpers/logging-helper');
 
 /**
  * This will solve the board.
@@ -55,7 +56,8 @@ function solveBoard({
   };
 }
 
-function engine({ input }) {
+function engine({ input, sudokuBoxConfig }) {
+  const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose });
   const inputBoard = new BoardBuilder(input).build();
 
   try {
@@ -67,10 +69,10 @@ function engine({ input }) {
     };
   }
 
-  const markupBuilder = new MarkupBuilder();
-  const preemptiveSetBuilder = new PreemptiveSetBuilder();
-  const markupSolver = new MarkupSolver();
-  const preemptiveSetSolver = new PreemptiveSetSolver();
+  const markupBuilder = new MarkupBuilder({ logging });
+  const preemptiveSetBuilder = new PreemptiveSetBuilder({ logging });
+  const markupSolver = new MarkupSolver({ logging });
+  const preemptiveSetSolver = new PreemptiveSetSolver({ logging });
   const solutionValidator = new SolutionValidator();
 
   const { isPuzzleSolved, output, board } = solveBoard({

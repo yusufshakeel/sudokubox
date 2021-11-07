@@ -1,6 +1,7 @@
 'use strict';
 
 const PreemptiveSetBuilder = require('../../../src/builders/preemptive-set-builder');
+const LoggingHelper = require('../../../src/helpers/logging-helper');
 
 const {
   partiallySolvedBoardMarkupToFindPreemptiveSet,
@@ -8,7 +9,8 @@ const {
 } = require('../../test-data/sudoku-puzzle-hard');
 
 describe('PreemptiveSetBuilder', () => {
-  const preemptiveSetBuilder = new PreemptiveSetBuilder();
+  const logging = new LoggingHelper({ isLoggingEnabled: true });
+  const preemptiveSetBuilder = new PreemptiveSetBuilder({ logging });
 
   describe('When preemptive set exists in the markup', () => {
     test('Should return preemptive set', () => {

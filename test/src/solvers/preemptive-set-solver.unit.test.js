@@ -1,6 +1,7 @@
 'use strict';
 
 const PreemptiveSetSolver = require('../../../src/solvers/preemptive-set-solver');
+const LoggingHelper = require('../../../src/helpers/logging-helper');
 
 const {
   partiallySolvedBoardMarkupToFindPreemptiveSet,
@@ -9,7 +10,8 @@ const {
 } = require('../../test-data/sudoku-puzzle-hard');
 
 describe('PreemptiveSetSolver', () => {
-  const preemptiveSetSolver = new PreemptiveSetSolver();
+  const logging = new LoggingHelper({ isLoggingEnabled: true });
+  const preemptiveSetSolver = new PreemptiveSetSolver({ logging });
 
   test('Should return markup', () => {
     const result = preemptiveSetSolver.solve(
