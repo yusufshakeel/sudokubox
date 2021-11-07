@@ -26,6 +26,8 @@ const {
   solution: unsolvablePuzzleSolution
 } = require('../test-data/sudoku-puzzle-unsolvable');
 
+const { input: expertPuzzleInput } = require('../test-data/sudoku-puzzle-expert');
+
 const { input: invalidPuzzleInput } = require('../test-data/sudoku-puzzle-invalid-input');
 
 describe('engine', () => {
@@ -48,6 +50,15 @@ describe('engine', () => {
     });
   });
 
+  describe('Solve medium puzzle', () => {
+    test('Should return result', () => {
+      const result = engine({ input: mediumPuzzleInput });
+      expect(result.isPuzzleSolved).toBeTruthy();
+      expect(result.board).toStrictEqual(mediumPuzzleSolution);
+      expect(result.output).toStrictEqual(mediumPuzzleOutput);
+    });
+  });
+
   describe('Solve hard puzzle', () => {
     test('Should return result', () => {
       const result = engine({ input: hardPuzzleInput });
@@ -57,12 +68,10 @@ describe('engine', () => {
     });
   });
 
-  describe('Solve medium puzzle', () => {
+  describe('Solve expert puzzle', () => {
     test('Should return result', () => {
-      const result = engine({ input: mediumPuzzleInput });
-      expect(result.isPuzzleSolved).toBeTruthy();
-      expect(result.board).toStrictEqual(mediumPuzzleSolution);
-      expect(result.output).toStrictEqual(mediumPuzzleOutput);
+      const result = engine({ input: expertPuzzleInput });
+      expect(result.isPuzzleSolved).toBeFalsy();
     });
   });
 
