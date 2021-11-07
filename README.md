@@ -1,7 +1,7 @@
 # sudokubox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/sudokubox)
-[![npm version](https://img.shields.io/badge/npm-0.6.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
+[![npm version](https://img.shields.io/badge/npm-0.7.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
 
 SudokuBox is an open source project that solves 9x9 sudoku puzzle.
 
@@ -48,6 +48,19 @@ The `result` will have value like the following:
 ```
 
 If `isPuzzleSolved` is `false` then the puzzle was not solved.
+
+### Error
+
+For error case the response will be like the following:
+
+```
+{
+  "isPuzzleSolved": false,
+  "error": {
+    "message": "Some error message"
+  }
+}
+```
 
 ## Sudoku board
 
