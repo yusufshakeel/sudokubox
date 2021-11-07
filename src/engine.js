@@ -7,6 +7,7 @@ const MarkupSolver = require('./solvers/markup-solver');
 const PreemptiveSetSolver = require('./solvers/preemptive-set-solver');
 const SolutionValidator = require('./validators/solution-validator');
 const InputValidator = require('./validators/input-validator');
+const BoardValidator = require('./validators/board-validator');
 const { getOutputArrayFromBoard } = require('./helpers');
 const LoggingHelper = require('./helpers/logging-helper');
 
@@ -19,6 +20,7 @@ const LoggingHelper = require('./helpers/logging-helper');
  * @param {MarkupSolver} markupSolver
  * @param {PreemptiveSetSolver} preemptiveSetSolver
  * @param {SolutionValidator} solutionValidator
+ * @param {BoardValidator} boardValidator
  * @returns {{output: number[], isPuzzleSolved: boolean, board: *[]}}
  */
 function solveBoard({
@@ -28,7 +30,8 @@ function solveBoard({
   preemptiveSetBuilder,
   markupSolver,
   preemptiveSetSolver,
-  solutionValidator
+  solutionValidator,
+  boardValidator
 }) {
   logging.debug({
     moduleName: 'Engine',
@@ -44,6 +47,27 @@ function solveBoard({
     const preemptiveSets = preemptiveSetBuilder.withMarkup(markup).build();
     const updatedMarkup = preemptiveSetSolver.solve(preemptiveSets, markup);
     const { isBoardChanged, board: enrichedBoard } = markupSolver.solve(updatedMarkup, board);
+
+    if (!boardValidator.isValid(enrichedBoard)) {
+      logging.debug({
+        moduleName: 'Engine',
+        functionName: 'solveBoard',
+        message: 'Board is not valid'
+      });
+
+      logging.debug({
+        moduleName: 'Engine',
+        functionName: 'solveBoard',
+        message: 'EXITING solveBoard block'
+      });
+
+      return {
+        isPuzzleSolved,
+        output: getOutputArrayFromBoard(board),
+        board
+      };
+    }
+
     isPuzzleSolved = solutionValidator.isSolved(enrichedBoard);
 
     board = [...enrichedBoard];
@@ -101,6 +125,7 @@ function engine({ input, sudokuBoxConfig }) {
   const markupSolver = new MarkupSolver({ logging });
   const preemptiveSetSolver = new PreemptiveSetSolver({ logging });
   const solutionValidator = new SolutionValidator();
+  const boardValidator = new BoardValidator();
 
   const { isPuzzleSolved, output, board } = solveBoard({
     inputBoard,
@@ -109,7 +134,8 @@ function engine({ input, sudokuBoxConfig }) {
     preemptiveSetBuilder,
     markupSolver,
     preemptiveSetSolver,
-    solutionValidator
+    solutionValidator,
+    boardValidator
   });
 
   logging.debug({
