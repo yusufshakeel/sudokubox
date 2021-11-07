@@ -70,6 +70,12 @@ function solveBoard({
   };
 }
 
+/**
+ * Engine to solve the puzzle.
+ * @param {number[]} input
+ * @param {{ verbose: boolean }} sudokuBoxConfig
+ * @returns {{isPuzzleSolved: boolean, error: {message}}|{output: number[], isPuzzleSolved: boolean, board: number[][]}}
+ */
 function engine({ input, sudokuBoxConfig }) {
   const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose });
 
