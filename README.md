@@ -8,6 +8,12 @@ SudokuBox is an open source project that solves 9x9 sudoku puzzle.
 ## Table of content
 
 * [Getting started](#getting-started)
+  * [Install](#install)
+  * [Require](#require)
+  * [Solve](#solve)
+  * [Error](#error)
+  * [Config](#config)
+    * [verbose](#verbose)
 * [Sudoku board](#sudoku-board)
 * [Input](#input)
 * [Output](#output)
@@ -15,17 +21,23 @@ SudokuBox is an open source project that solves 9x9 sudoku puzzle.
 
 ## Getting started
 
+### Install
+
 To install this run the following command in the terminal.
 
 ```shell
 npm i sudokubox
 ```
 
+### Require
+
 Require `sudokubox`.
 
 ```javascript
 const SudokuBox = require('sudokubox');
 ```
+
+### Solve
 
 Create object and pass input.
 
@@ -61,6 +73,26 @@ For error case the response will be like the following:
   }
 }
 ```
+
+### Config
+
+To pass config to SudokuBox pass the config option.
+
+```javascript
+const config = { /**/ };
+const sudokuBox = new SudokuBox(config);
+```
+
+#### verbose
+
+To print the logs pass the following config.
+
+```javascript
+const config = { verbose: true };
+const sudokuBox = new SudokuBox(config);
+```
+
+Default: `verbose: false`
 
 ## Sudoku board
 
