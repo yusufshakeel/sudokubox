@@ -65,6 +65,27 @@ function getColumn(columnIndex, board) {
 }
 
 /**
+ * This will return sub board as one dimensional array.
+ * @param {number} rowIndex
+ * @param {number} columnIndex
+ * @param {number[][]} board
+ * @returns {number[]}
+ */
+function getSubBoard(rowIndex, columnIndex, board) {
+  const { rowStartIndex, rowEndIndex, columnStartIndex, columnEndIndex } = getSubBoardIndices(
+    rowIndex,
+    columnIndex
+  );
+  return getSubBoardAsOneDimensionalArray(
+    rowStartIndex,
+    rowEndIndex,
+    columnStartIndex,
+    columnEndIndex,
+    board
+  );
+}
+
+/**
  * This will return true if value is unique in row.
  * @param {number} value The value to check in the row.
  * @param {number} columnIndex The column index of the value.
@@ -146,18 +167,7 @@ function getSubBoardAsOneDimensionalArray(
  * @returns {boolean}
  */
 function isUniqueValueInSubBoard(value, rowIndex, columnIndex, board) {
-  const { rowStartIndex, rowEndIndex, columnStartIndex, columnEndIndex } = getSubBoardIndices(
-    rowIndex,
-    columnIndex
-  );
-
-  const subBoardAsOneDimensionalArray = getSubBoardAsOneDimensionalArray(
-    rowStartIndex,
-    rowEndIndex,
-    columnStartIndex,
-    columnEndIndex,
-    board
-  );
+  const subBoardAsOneDimensionalArray = getSubBoard(rowIndex, columnIndex, board);
 
   const valueIndexToSkip =
     (rowIndex % TOTAL_ROWS_IN_SUB_BOARD) * TOTAL_ROWS_IN_SUB_BOARD +
@@ -375,6 +385,7 @@ function updateBoardMarkupUsingPreemptiveSet(boardMarkup, preemptiveSet, markupT
 module.exports = {
   getRow,
   getColumn,
+  getSubBoard,
   getMarkup,
   isUniqueValueInRow,
   isUniqueValueInColumn,
