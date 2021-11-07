@@ -36,7 +36,8 @@ function PreemptiveSetBuilder(config) {
     logging.debug({
       moduleName: 'PreemptiveSetBuilder',
       functionName: 'build',
-      message: 'ENTERED build block'
+      message: 'ENTERED build block',
+      markup: self.markup
     });
 
     const segregatedMarkup = segregateMarkup(self.markup);
