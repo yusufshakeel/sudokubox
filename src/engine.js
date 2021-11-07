@@ -72,8 +72,8 @@ function solveBoard({
 
 /**
  * Engine to solve the puzzle.
- * @param {number[]} input
- * @param {{ verbose: boolean }} sudokuBoxConfig
+ * @param {number[]} input This is the input one dimensional array.
+ * @param {{ verbose: boolean }} sudokuBoxConfig This is an object of configuration.
  * @returns {{isPuzzleSolved: boolean, error: {message}}|{output: number[], isPuzzleSolved: boolean, board: number[][]}}
  */
 function engine({ input, sudokuBoxConfig }) {
