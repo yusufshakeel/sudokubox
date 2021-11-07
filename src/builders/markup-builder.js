@@ -16,7 +16,8 @@ function MarkupBuilder(config) {
     logging.debug({
       moduleName: 'MarkupBuilder',
       functionName: 'build',
-      message: 'ENTERED build block'
+      message: 'ENTERED build block',
+      board: self.board
     });
 
     const markup = self.board.reduce((result, row, rowIndex) => {
