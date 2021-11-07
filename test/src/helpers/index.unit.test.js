@@ -3,6 +3,7 @@
 const {
   getRow,
   getColumn,
+  getSubBoard,
   getMarkup,
   isUniqueValueInRow,
   isUniqueValueInColumn,
@@ -40,6 +41,12 @@ describe('getRow', () => {
 describe('getColumn', () => {
   test('Should return column', () => {
     expect(getColumn(3, puzzle)).toStrictEqual([2, 0, 0, 7, 0, 0, 0, 0, 0]);
+  });
+});
+
+describe('getSubBoard', () => {
+  test('Should return sub board as one dimensional array', () => {
+    expect(getSubBoard(1, 2, puzzle)).toStrictEqual([1, 3, 0, 0, 2, 5, 4, 8, 0]);
   });
 });
 
