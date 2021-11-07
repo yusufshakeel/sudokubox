@@ -43,6 +43,15 @@ function PreemptiveSetSolver(config) {
             preemptiveSet,
             markupAfterOmittingPreemptiveSetCells
           );
+
+          logging.debug({
+            moduleName: 'PreemptiveSetSolver',
+            functionName: 'solve',
+            message: 'EXITING isRowPreemptiveSet block',
+            preemptiveSet,
+            markupAfterOmittingPreemptiveSetCells,
+            boardMarkup
+          });
         }
       }
 
@@ -63,6 +72,15 @@ function PreemptiveSetSolver(config) {
             preemptiveSet,
             markupAfterOmittingPreemptiveSetCells
           );
+
+          logging.debug({
+            moduleName: 'PreemptiveSetSolver',
+            functionName: 'solve',
+            message: 'EXITING isColumnPreemptiveSet block',
+            preemptiveSet,
+            markupAfterOmittingPreemptiveSetCells,
+            boardMarkup
+          });
         }
       }
 
@@ -86,6 +104,15 @@ function PreemptiveSetSolver(config) {
             preemptiveSet,
             markupAfterOmittingPreemptiveSetCells
           );
+
+          logging.debug({
+            moduleName: 'PreemptiveSetSolver',
+            functionName: 'solve',
+            message: 'EXITING isSubBoardPreemptiveSet block',
+            preemptiveSet,
+            markupAfterOmittingPreemptiveSetCells,
+            boardMarkup
+          });
         }
       }
     });
