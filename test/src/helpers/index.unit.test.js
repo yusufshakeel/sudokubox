@@ -421,7 +421,7 @@ describe('updateBoardMarkupUsingPreemptiveSet', () => {
         values: [1, 5]
       };
       const markupToUpdate = {
-        '7,0': [1, 8]
+        '7,0': [8]
       };
       expect(
         updateBoardMarkupUsingPreemptiveSet(boardMarkup, preemptiveSet, markupToUpdate)
