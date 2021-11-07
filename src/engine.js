@@ -6,15 +6,27 @@ const PreemptiveSetBuilder = require('./builders/preemptive-set-builder');
 const MarkupSolver = require('./solvers/markup-solver');
 const PreemptiveSetSolver = require('./solvers/preemptive-set-solver');
 const SolutionValidator = require('./validators/solution-validator');
+const InputValidator = require('./validators/input-validator');
 const { getOutputArrayFromBoard } = require('./helpers');
 
-const markupBuilder = new MarkupBuilder();
-const preemptiveSetBuilder = new PreemptiveSetBuilder();
-const markupSolver = new MarkupSolver();
-const preemptiveSetSolver = new PreemptiveSetSolver();
-const solutionValidator = new SolutionValidator();
-
-function solveBoard({ inputBoard }) {
+/**
+ * This will solve the board.
+ * @param {number[]} inputBoard
+ * @param {MarkupBuilder} markupBuilder
+ * @param {PreemptiveSetBuilder} preemptiveSetBuilder
+ * @param {MarkupSolver} markupSolver
+ * @param {PreemptiveSetSolver} preemptiveSetSolver
+ * @param {SolutionValidator} solutionValidator
+ * @returns {{output: number[], isPuzzleSolved: boolean, board: *[]}}
+ */
+function solveBoard({
+  inputBoard,
+  markupBuilder,
+  preemptiveSetBuilder,
+  markupSolver,
+  preemptiveSetSolver,
+  solutionValidator
+}) {
   let board = [...inputBoard];
   let isPuzzleSolved = false;
 
@@ -45,7 +57,30 @@ function solveBoard({ inputBoard }) {
 
 function engine({ input }) {
   const inputBoard = new BoardBuilder(input).build();
-  const { isPuzzleSolved, output, board } = solveBoard({ inputBoard });
+
+  try {
+    new InputValidator().validate(inputBoard);
+  } catch (e) {
+    return {
+      isPuzzleSolved: false,
+      error: { message: e.message }
+    };
+  }
+
+  const markupBuilder = new MarkupBuilder();
+  const preemptiveSetBuilder = new PreemptiveSetBuilder();
+  const markupSolver = new MarkupSolver();
+  const preemptiveSetSolver = new PreemptiveSetSolver();
+  const solutionValidator = new SolutionValidator();
+
+  const { isPuzzleSolved, output, board } = solveBoard({
+    inputBoard,
+    markupBuilder,
+    preemptiveSetBuilder,
+    markupSolver,
+    preemptiveSetSolver,
+    solutionValidator
+  });
   return { isPuzzleSolved, output, board };
 }
 

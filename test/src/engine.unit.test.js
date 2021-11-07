@@ -26,7 +26,19 @@ const {
   solution: unsolvablePuzzleSolution
 } = require('../test-data/sudoku-puzzle-unsolvable');
 
+const { input: invalidPuzzleInput } = require('../test-data/sudoku-puzzle-invalid-input');
+
 describe('engine', () => {
+  describe('When input is invalid', () => {
+    test('Should return result', () => {
+      const result = engine({ input: invalidPuzzleInput });
+      expect(result.isPuzzleSolved).toBeFalsy();
+      expect(result.error.message).toBe(
+        'Input board contains invalid number in Row: 0, Column: 0.'
+      );
+    });
+  });
+
   describe('Solve easy puzzle', () => {
     test('Should return result', () => {
       const result = engine({ input: easyPuzzleInput });
