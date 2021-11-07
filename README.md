@@ -1,13 +1,19 @@
 # sudokubox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/sudokubox)
-[![npm version](https://img.shields.io/badge/npm-0.7.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
+[![npm version](https://img.shields.io/badge/npm-0.8.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
 
 SudokuBox is an open source project that solves 9x9 sudoku puzzle.
 
 ## Table of content
 
 * [Getting started](#getting-started)
+  * [Install](#install)
+  * [Require](#require)
+  * [Solve](#solve)
+  * [Error](#error)
+  * [Config](#config)
+    * [verbose](#verbose)
 * [Sudoku board](#sudoku-board)
 * [Input](#input)
 * [Output](#output)
@@ -15,17 +21,23 @@ SudokuBox is an open source project that solves 9x9 sudoku puzzle.
 
 ## Getting started
 
+### Install
+
 To install this run the following command in the terminal.
 
 ```shell
 npm i sudokubox
 ```
 
+### Require
+
 Require `sudokubox`.
 
 ```javascript
 const SudokuBox = require('sudokubox');
 ```
+
+### Solve
 
 Create object and pass input.
 
@@ -61,6 +73,26 @@ For error case the response will be like the following:
   }
 }
 ```
+
+### Config
+
+To pass config to SudokuBox pass the config option.
+
+```javascript
+const config = { someConfigField: 'someConfigValue' };
+const sudokuBox = new SudokuBox(config);
+```
+
+#### verbose
+
+To print the logs pass the following config.
+
+```javascript
+const config = { verbose: true };
+const sudokuBox = new SudokuBox(config);
+```
+
+Default: `verbose: false`
 
 ## Sudoku board
 

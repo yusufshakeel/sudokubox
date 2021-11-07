@@ -13,12 +13,21 @@ const {
 } = require('../helpers');
 const { isEmpty } = require('../helpers/helper');
 
-function PreemptiveSetSolver() {
+function PreemptiveSetSolver(config) {
+  const { logging } = config;
+
   this.solve = (preemptiveSets, markup) => {
     let boardMarkup = { ...markup };
 
     preemptiveSets.forEach(preemptiveSet => {
       if (isRowPreemptiveSet(preemptiveSet)) {
+        logging.debug({
+          moduleName: 'PreemptiveSetSolver',
+          functionName: 'solve',
+          message: 'ENTERED isRowPreemptiveSet block',
+          preemptiveSet
+        });
+
         const { rowIndex } = getMarkupCellIndices(preemptiveSet.cells[0]);
         const rowMarkup = getRowMarkup(rowIndex, boardMarkup);
         const markupAfterOmittingPreemptiveSetCells = omitMarkup(preemptiveSet.cells, rowMarkup);
@@ -32,6 +41,13 @@ function PreemptiveSetSolver() {
       }
 
       if (isColumnPreemptiveSet(preemptiveSet)) {
+        logging.debug({
+          moduleName: 'PreemptiveSetSolver',
+          functionName: 'solve',
+          message: 'ENTERED isColumnPreemptiveSet block',
+          preemptiveSet
+        });
+
         const { columnIndex } = getMarkupCellIndices(preemptiveSet.cells[0]);
         const columnMarkup = getColumnMarkup(columnIndex, boardMarkup);
         const markupAfterOmittingPreemptiveSetCells = omitMarkup(preemptiveSet.cells, columnMarkup);
@@ -45,6 +61,13 @@ function PreemptiveSetSolver() {
       }
 
       if (isSubBoardPreemptiveSet(preemptiveSet)) {
+        logging.debug({
+          moduleName: 'PreemptiveSetSolver',
+          functionName: 'solve',
+          message: 'ENTERED isSubBoardPreemptiveSet block',
+          preemptiveSet
+        });
+
         const { rowIndex, columnIndex } = getMarkupCellIndices(preemptiveSet.cells[0]);
         const subBoardMarkup = getSubBoardMarkup(rowIndex, columnIndex, boardMarkup);
         const markupAfterOmittingPreemptiveSetCells = omitMarkup(
@@ -61,6 +84,7 @@ function PreemptiveSetSolver() {
       }
     });
 
+    logging.debug({ moduleName: 'PreemptiveSetSolver', functionName: 'solve', boardMarkup });
     return boardMarkup;
   };
 }

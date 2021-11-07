@@ -10,7 +10,8 @@ const {
   filterMarkup
 } = require('../helpers');
 
-function PreemptiveSetBuilder() {
+function PreemptiveSetBuilder(config) {
+  const { logging } = config;
   const self = this;
 
   const preemptiveSet = (values, markup) => {
@@ -80,6 +81,8 @@ function PreemptiveSetBuilder() {
         }
       });
     }
+
+    logging.debug({ moduleName: 'PreemptiveSetBuilder', functionName: 'build', preemptiveSets });
     return preemptiveSets;
   };
 }

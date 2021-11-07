@@ -2,7 +2,9 @@
 
 const { getMarkupCellIndices } = require('../helpers');
 
-function MarkupSolver() {
+function MarkupSolver(config) {
+  const { logging } = config;
+
   this.solve = (markup, board) => {
     let isBoardChanged = false;
     let partiallySolvedBoard = [...board];
@@ -11,9 +13,22 @@ function MarkupSolver() {
         const { rowIndex, columnIndex } = getMarkupCellIndices(cell);
         partiallySolvedBoard[rowIndex][columnIndex] = value[0];
         isBoardChanged = true;
+
+        logging.debug({
+          moduleName: 'MarkupSolver',
+          functionName: 'solve',
+          message: 'Cell found with one markup',
+          rowIndex,
+          columnIndex,
+          valueUsedToFillTheCell: value[0]
+        });
       }
     });
-    return { isBoardChanged, board: partiallySolvedBoard };
+
+    const markupSolverResult = { isBoardChanged, board: partiallySolvedBoard };
+    logging.debug({ moduleName: 'MarkupSolver', functionName: 'solve', markupSolverResult });
+
+    return markupSolverResult;
   };
 }
 
