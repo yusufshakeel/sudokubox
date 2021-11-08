@@ -382,6 +382,17 @@ function updateBoardMarkupUsingPreemptiveSet(boardMarkup, preemptiveSet, markupT
   return enrichedBoardMarkup;
 }
 
+function getFirstMarkupWithLessNumberOfValues(markup) {
+  const segregatedMarkup = segregateMarkup(markup);
+  const groupSize = Object.keys(segregatedMarkup)
+    .map(v => parseInt(v))
+    .sort();
+  const lowestGroupSize = groupSize[0];
+  const [cell, values] = Object.entries(markup).find(entry => entry[1].length === lowestGroupSize);
+  const { rowIndex, columnIndex } = getMarkupCellIndices(cell);
+  return { cell, rowIndex, columnIndex, values };
+}
+
 module.exports = {
   getRow,
   getColumn,
@@ -404,5 +415,6 @@ module.exports = {
   getMatchingMarkupByValues,
   filterMarkup,
   omitMarkup,
-  updateBoardMarkupUsingPreemptiveSet
+  updateBoardMarkupUsingPreemptiveSet,
+  getFirstMarkupWithLessNumberOfValues
 };
