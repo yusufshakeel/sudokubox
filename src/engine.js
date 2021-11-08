@@ -11,15 +11,19 @@ const SolutionValidator = require('./validators/solution-validator');
 const InputValidator = require('./validators/input-validator');
 const BoardValidator = require('./validators/board-validator');
 const LoggingHelper = require('./helpers/logging-helper');
+const PerformanceHelper = require('./helpers/performance-helper');
 
 /**
  * Engine to solve the puzzle.
  * @param {number[]} input This is the input one dimensional array.
  * @param {{ verbose: boolean }} sudokuBoxConfig This is an object of configuration.
- * @returns {{isPuzzleSolved: boolean, error: {message}}|{output: number[], isPuzzleSolved: boolean, board: number[][]}}
+ * @returns {{isPuzzleSolved: boolean, error: {message}}|{output: number[], isPuzzleSolved: boolean, board: number[][], performance: {duration: {string: number} } }}
  */
 function engine({ input, sudokuBoxConfig }) {
   const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose });
+  const performance = new PerformanceHelper();
+
+  performance.startTimer();
 
   logging.debug({
     moduleName: 'Engine',
@@ -86,7 +90,12 @@ function engine({ input, sudokuBoxConfig }) {
     message: 'EXITING engine block'
   });
 
-  return { isPuzzleSolved, output, board };
+  performance.stopTimer();
+  const performanceStats = sudokuBoxConfig?.logPerformance
+    ? { performance: performance.stats() }
+    : {};
+
+  return { isPuzzleSolved, output, board, ...performanceStats };
 }
 
 module.exports = engine;

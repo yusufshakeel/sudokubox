@@ -1,7 +1,7 @@
 # sudokubox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/sudokubox)
-[![npm version](https://img.shields.io/badge/npm-0.17.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
+[![npm version](https://img.shields.io/badge/npm-0.18.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
 
 SudokuBox is an open source project that solves 9x9 sudoku puzzle.
 
@@ -14,6 +14,7 @@ SudokuBox is an open source project that solves 9x9 sudoku puzzle.
   * [Error](#error)
   * [Config](#config)
     * [verbose](#verbose)
+    * [logPerformance](#logperformance)
 * [Sudoku board](#sudoku-board)
 * [Input](#input)
 * [Output](#output)
@@ -93,6 +94,35 @@ const sudokuBox = new SudokuBox(config);
 ```
 
 Default: `verbose: false`
+
+#### logPerformance
+
+To print the performance pass the following config.
+
+```javascript
+const config = { logPerformance: true };
+const sudokuBox = new SudokuBox(config);
+```
+
+When `logPerformance` is `true` then result will look like the following.
+
+```
+{ 
+  "isPuzzleSolved": true,
+  "output": [ /* this is a one dimensional array having 81 elements */ ], 
+  "board": [ /* this is a two dimensional 9x9 array */ ],
+  "performance": {
+    "duration": {
+      "nano": 24453670,
+      "micro": 24453.67,
+      "milli": 24.45367,
+      "second": 0.02445367
+    }
+  }
+}
+```
+
+Default: `logPerformance: false`
 
 ## Sudoku board
 
