@@ -31,6 +31,13 @@ describe('StackHelper', () => {
         expect(stack.size()).toBe(0);
       });
     });
+
+    describe('When raw is called', () => {
+      test('Should return stack', () => {
+        const stack = new StackHelper();
+        expect(stack.raw()).toStrictEqual([]);
+      });
+    });
   });
 
   describe('When stack has item', () => {
@@ -57,6 +64,26 @@ describe('StackHelper', () => {
         stack.push({ cellRowIndex: 1, cellColumnIndex: 1, value: 1 });
         expect(stack.push({ cellRowIndex: 2, cellColumnIndex: 2, value: 4 })).toBe(2);
         expect(stack.size()).toBe(2);
+      });
+    });
+
+    describe('When raw is called', () => {
+      test('Should return stack', () => {
+        const stack = new StackHelper();
+        stack.push({ cellRowIndex: 1, cellColumnIndex: 1, value: 1 });
+        stack.push({ cellRowIndex: 2, cellColumnIndex: 2, value: 2 });
+        expect(stack.raw()).toStrictEqual([
+          {
+            cellColumnIndex: 1,
+            cellRowIndex: 1,
+            value: 1
+          },
+          {
+            cellColumnIndex: 2,
+            cellRowIndex: 2,
+            value: 2
+          }
+        ]);
       });
     });
   });

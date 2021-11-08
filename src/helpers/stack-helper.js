@@ -3,6 +3,10 @@
 function StackHelper() {
   const stack = [];
 
+  this.raw = () => {
+    return stack;
+  };
+
   this.push = data => {
     return stack.push(data);
   };
