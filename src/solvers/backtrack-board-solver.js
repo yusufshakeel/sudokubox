@@ -20,7 +20,6 @@ function BacktrackBoardSolver({ logging, markupBuilder, boardSolver }) {
 
     let markup = markupBuilder.withBoard(board).build();
     const {
-      cell: seedMarkupCell,
       rowIndex: seedMarkupCellRowIndex,
       columnIndex: seedMarkupCellColumnIndex,
       values: seedMarkupCellValues
@@ -31,7 +30,6 @@ function BacktrackBoardSolver({ logging, markupBuilder, boardSolver }) {
       functionName: 'solve',
       message: 'Seed markup cell for backtracking',
       data: {
-        cell: seedMarkupCell,
         rowIndex: seedMarkupCellRowIndex,
         columnIndex: seedMarkupCellColumnIndex,
         values: seedMarkupCellValues
@@ -41,15 +39,17 @@ function BacktrackBoardSolver({ logging, markupBuilder, boardSolver }) {
     for (let seedIndex = 0; seedIndex < seedMarkupCellValues.length; seedIndex++) {
       board = [...pristineBoard];
 
+      const boardToPushIntoStack = JSON.stringify(board);
+
       logging.debug({
         moduleName: 'BacktrackBoardSolver',
         functionName: 'solve',
         message: 'Pushing into stack',
         data: {
-          cell: seedMarkupCell,
           rowIndex: seedMarkupCellRowIndex,
           columnIndex: seedMarkupCellColumnIndex,
-          value: seedMarkupCellValues[seedIndex]
+          value: seedMarkupCellValues[seedIndex],
+          board: boardToPushIntoStack
         }
       });
 
@@ -57,39 +57,39 @@ function BacktrackBoardSolver({ logging, markupBuilder, boardSolver }) {
         rowIndex: seedMarkupCellRowIndex,
         columnIndex: seedMarkupCellColumnIndex,
         value: seedMarkupCellValues[seedIndex],
-        board: JSON.stringify(board)
+        board: boardToPushIntoStack
       });
 
       while (!isPuzzleSolved) {
         const {
-          rowIndex: stackRowIndex,
-          columnIndex: stackColumnIndex,
-          value: stackValue,
-          board: stackBoard
+          rowIndex: rowIndexFromStack,
+          columnIndex: columnIndexFromStack,
+          value: cellValueFromStack,
+          board: boardFromStack
         } = stack.pop();
 
         logging.debug({
           moduleName: 'BacktrackBoardSolver',
           functionName: 'solve',
           message: 'Popped from stack',
-          data: { stackRowIndex, stackColumnIndex, stackValue, stackBoard }
+          data: { rowIndexFromStack, columnIndexFromStack, cellValueFromStack, boardFromStack }
         });
 
-        board = [...JSON.parse(stackBoard)];
-        board[stackRowIndex][stackColumnIndex] = stackValue;
+        board = [...JSON.parse(boardFromStack)];
+        board[rowIndexFromStack][columnIndexFromStack] = cellValueFromStack;
 
         logging.debug({
           moduleName: 'BacktrackBoardSolver',
           functionName: 'solve',
-          message: 'Board updated using data from stack',
-          data: board
+          message: 'Board after updating cell using value from stack',
+          data: { rowIndexFromStack, columnIndexFromStack, cellValueFromStack, updatedBoard: board }
         });
 
         const solveBoardResult = boardSolver.solve(board);
 
         isPuzzleSolved = solveBoardResult.isPuzzleSolved;
 
-        if (solveBoardResult.isPuzzleSolved) {
+        if (isPuzzleSolved) {
           logging.debug({
             moduleName: 'BacktrackBoardSolver',
             functionName: 'solve',
@@ -105,12 +105,11 @@ function BacktrackBoardSolver({ logging, markupBuilder, boardSolver }) {
           logging.debug({
             moduleName: 'BacktrackBoardSolver',
             functionName: 'solve',
-            message: 'Board is valid but not solved yet so picking new seed markup cell'
+            message: 'Board is valid but not yet solved so selecting a new seed markup cell'
           });
 
           markup = markupBuilder.withBoard(board).build();
           const {
-            cell: newSeedMarkupCell,
             rowIndex: newSeedMarkupCellRowIndex,
             columnIndex: newSeedMarkupCellColumnIndex,
             values: newSeedMarkupCellValues
@@ -121,7 +120,6 @@ function BacktrackBoardSolver({ logging, markupBuilder, boardSolver }) {
             functionName: 'solve',
             message: 'Seed markup cell for backtracking',
             data: {
-              cell: newSeedMarkupCell,
               rowIndex: newSeedMarkupCellRowIndex,
               columnIndex: newSeedMarkupCellColumnIndex,
               values: newSeedMarkupCellValues
@@ -129,24 +127,25 @@ function BacktrackBoardSolver({ logging, markupBuilder, boardSolver }) {
           });
 
           newSeedMarkupCellValues.forEach(value => {
+            const boardToSaveIntoStack = JSON.stringify(board);
+
             logging.debug({
               moduleName: 'BacktrackBoardSolver',
               functionName: 'solve',
               message: 'Pushing into stack',
               data: {
-                cell: newSeedMarkupCell,
                 rowIndex: newSeedMarkupCellRowIndex,
                 columnIndex: newSeedMarkupCellColumnIndex,
-                value
+                value,
+                board: boardToSaveIntoStack
               }
             });
 
             stack.push({
-              cell: newSeedMarkupCell,
               rowIndex: newSeedMarkupCellRowIndex,
               columnIndex: newSeedMarkupCellColumnIndex,
               value,
-              board: JSON.stringify(board)
+              board: boardToSaveIntoStack
             });
           });
         } else {
