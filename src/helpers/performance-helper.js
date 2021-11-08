@@ -1,7 +1,5 @@
 'use strict';
 
-const NANOSEC_PER_SEC = 1e9;
-
 /**
  * This is for recording performance.
  * @constructor
@@ -29,7 +27,7 @@ function PerformanceHelper() {
    * @returns {{duration: {micro: number, nano: number, milli: number, second: number}}}
    */
   this.stats = () => {
-    const nano = duration[0] * NANOSEC_PER_SEC + duration[1];
+    const nano = duration[0] * 1e9 + duration[1];
     return {
       duration: {
         nano,

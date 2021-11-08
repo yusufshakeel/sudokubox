@@ -1,7 +1,8 @@
 'use strict';
 
 const defaultConfig = {
-  verbose: false
+  verbose: false,
+  logPerformance: false
 };
 
 module.exports = defaultConfig;
