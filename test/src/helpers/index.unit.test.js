@@ -22,7 +22,8 @@ const {
   getMatchingMarkupByValues,
   filterMarkup,
   omitMarkup,
-  updateBoardMarkupUsingPreemptiveSet
+  updateBoardMarkupUsingPreemptiveSet,
+  getFirstMarkupWithLessNumberOfValues
 } = require('../../../src/helpers');
 
 const { puzzle, solution, output } = require('../../test-data/sudoku-puzzle-easy');
@@ -430,6 +431,25 @@ describe('updateBoardMarkupUsingPreemptiveSet', () => {
         '7,6': [1, 5],
         '7,7': [1, 5]
       });
+    });
+  });
+});
+
+describe('getFirstMarkupWithLessNumberOfValues', () => {
+  test('Should return first cell', () => {
+    expect(
+      getFirstMarkupWithLessNumberOfValues({
+        '0,0': [1, 2, 3],
+        '1,2': [1, 2, 5, 6, 7],
+        '3,3': [3, 4, 5],
+        '4,5': [2, 3],
+        '5,7': [2, 5, 6]
+      })
+    ).toStrictEqual({
+      cell: '4,5',
+      rowIndex: 4,
+      columnIndex: 5,
+      values: [2, 3]
     });
   });
 });
