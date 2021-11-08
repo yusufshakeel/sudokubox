@@ -21,7 +21,7 @@ const LoggingHelper = require('./helpers/logging-helper');
  * @param {PreemptiveSetSolver} preemptiveSetSolver
  * @param {SolutionValidator} solutionValidator
  * @param {BoardValidator} boardValidator
- * @returns {{output: number[], isPuzzleSolved: boolean, board: *[]}}
+ * @returns {{output: number[], isPuzzleSolved: boolean, isBoardValid: boolean, isBoardChanged: boolean, board: number[][]}}
  */
 function solveBoard({
   inputBoard,
@@ -41,14 +41,22 @@ function solveBoard({
 
   let board = [...inputBoard];
   let isPuzzleSolved = false;
+  let isBoardValid = false;
+  let isBoardChanged = false;
 
   while (!isPuzzleSolved) {
     const markup = markupBuilder.withBoard(board).build();
     const preemptiveSets = preemptiveSetBuilder.withMarkup(markup).build();
     const updatedMarkup = preemptiveSetSolver.solve(preemptiveSets, markup);
-    const { isBoardChanged, board: enrichedBoard } = markupSolver.solve(updatedMarkup, board);
+    const { isBoardChanged: markSolverBoardChanged, board: enrichedBoard } = markupSolver.solve(
+      updatedMarkup,
+      board
+    );
 
-    if (!boardValidator.isValid(enrichedBoard)) {
+    isBoardValid = boardValidator.isValid(enrichedBoard);
+    isBoardChanged = markSolverBoardChanged;
+
+    if (!isBoardValid) {
       logging.debug({
         moduleName: 'Engine',
         functionName: 'solveBoard',
@@ -63,8 +71,10 @@ function solveBoard({
 
       return {
         isPuzzleSolved,
-        output: getOutputArrayFromBoard(board),
-        board
+        isBoardValid,
+        isBoardChanged,
+        board,
+        output: getOutputArrayFromBoard(board)
       };
     }
 
@@ -89,8 +99,10 @@ function solveBoard({
 
   return {
     isPuzzleSolved,
-    output: getOutputArrayFromBoard(board),
-    board
+    isBoardValid,
+    isBoardChanged,
+    board,
+    output: getOutputArrayFromBoard(board)
   };
 }
 
