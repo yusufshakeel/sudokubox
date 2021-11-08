@@ -28,6 +28,12 @@ const {
   solution: expertPuzzleSolution
 } = require('../test-data/sudoku-puzzle-expert');
 
+const {
+  input: evilPuzzleInput,
+  output: evilPuzzleOutput,
+  solution: evilPuzzleSolution
+} = require('../test-data/sudoku-puzzle-evil');
+
 const { input: invalidPuzzleInput } = require('../test-data/sudoku-puzzle-invalid-input');
 
 describe('engine', () => {
@@ -74,6 +80,15 @@ describe('engine', () => {
       expect(result.isPuzzleSolved).toBeTruthy();
       expect(result.board).toStrictEqual(expertPuzzleSolution);
       expect(result.output).toStrictEqual(expertPuzzleOutput);
+    });
+  });
+
+  describe('Solve evil puzzle', () => {
+    test('Should return result', () => {
+      const result = engine({ input: evilPuzzleInput });
+      expect(result.isPuzzleSolved).toBeTruthy();
+      expect(result.board).toStrictEqual(evilPuzzleSolution);
+      expect(result.output).toStrictEqual(evilPuzzleOutput);
     });
   });
 
