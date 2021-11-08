@@ -3,8 +3,8 @@
 function StackHelper() {
   const stack = [];
 
-  this.push = ({ cellRowIndex, cellColumnIndex, value }) => {
-    return stack.push({ cellRowIndex, cellColumnIndex, value });
+  this.push = data => {
+    return stack.push(data);
   };
 
   this.pop = () => {
