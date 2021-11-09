@@ -85,7 +85,7 @@ describe('engine', () => {
 
   describe('Solve evil puzzle', () => {
     test('Should return result', () => {
-      const result = engine({ input: evilPuzzleInput });
+      const result = engine({ input: evilPuzzleInput, sudokuBoxConfig: { logPerformance: true } });
       expect(result.isPuzzleSolved).toBeTruthy();
       expect(result.board).toStrictEqual(evilPuzzleSolution);
       expect(result.output).toStrictEqual(evilPuzzleOutput);
