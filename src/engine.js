@@ -20,8 +20,10 @@ const PerformanceHelper = require('./helpers/performance-helper');
  * @returns {{output: number[], isPuzzleSolved: boolean, isBoardValid: boolean, board: number[][], performance: {} }}
  */
 function engine({ input, sudokuBoxConfig }) {
-  const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose });
-  const performance = new PerformanceHelper();
+  const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose === true });
+  const performance = new PerformanceHelper({
+    logPerformance: sudokuBoxConfig?.logPerformance === true
+  });
 
   logging.debug({
     moduleName: 'Engine',
@@ -72,9 +74,6 @@ function engine({ input, sudokuBoxConfig }) {
     const backtrackingResult = backtrackBoardSolver.solve(board);
 
     performance.stopTimer();
-    const performanceStats = sudokuBoxConfig?.logPerformance
-      ? { performance: performance.stats() }
-      : {};
 
     logging.debug({
       moduleName: 'Engine',
@@ -83,18 +82,15 @@ function engine({ input, sudokuBoxConfig }) {
     });
 
     return {
-      ...performanceStats,
       isPuzzleSolved: backtrackingResult.isPuzzleSolved,
       isBoardValid: backtrackingResult.isBoardValid,
       output: backtrackingResult.output,
-      board: backtrackingResult.board
+      board: backtrackingResult.board,
+      performance: performance.stats()
     };
   }
 
   performance.stopTimer();
-  const performanceStats = sudokuBoxConfig?.logPerformance
-    ? { performance: performance.stats() }
-    : {};
 
   logging.debug({
     moduleName: 'Engine',
@@ -102,7 +98,7 @@ function engine({ input, sudokuBoxConfig }) {
     message: 'EXITING engine block'
   });
 
-  return { isPuzzleSolved, isBoardValid, output, board, ...performanceStats };
+  return { isPuzzleSolved, isBoardValid, output, board, performance: performance.stats() };
 }
 
 module.exports = engine;

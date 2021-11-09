@@ -53,6 +53,7 @@ describe('engine', () => {
       expect(result.isPuzzleSolved).toBeTruthy();
       expect(result.board).toStrictEqual(easyPuzzleSolution);
       expect(result.output).toStrictEqual(easyPuzzleOutput);
+      expect(result.performance).toBeUndefined();
     });
   });
 
@@ -89,6 +90,7 @@ describe('engine', () => {
       expect(result.isPuzzleSolved).toBeTruthy();
       expect(result.board).toStrictEqual(evilPuzzleSolution);
       expect(result.output).toStrictEqual(evilPuzzleOutput);
+      expect(result.performance).toBeDefined();
     });
   });
 
