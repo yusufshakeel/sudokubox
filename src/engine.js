@@ -23,13 +23,13 @@ function engine({ input, sudokuBoxConfig }) {
   const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose });
   const performance = new PerformanceHelper();
 
-  performance.startTimer();
-
   logging.debug({
     moduleName: 'Engine',
     functionName: 'engine',
     message: 'ENTERED engine block'
   });
+
+  performance.startTimer();
 
   const inputBoard = new BoardBuilder(input).build();
 
@@ -71,16 +71,16 @@ function engine({ input, sudokuBoxConfig }) {
     const backtrackBoardSolver = new BacktrackBoardSolver({ logging, markupBuilder, boardSolver });
     const backtrackingResult = backtrackBoardSolver.solve(board);
 
+    performance.stopTimer();
+    const performanceStats = sudokuBoxConfig?.logPerformance
+      ? { performance: performance.stats() }
+      : {};
+
     logging.debug({
       moduleName: 'Engine',
       functionName: 'engine',
       message: 'EXITING solve board by backtracking block'
     });
-
-    performance.stopTimer();
-    const performanceStats = sudokuBoxConfig?.logPerformance
-      ? { performance: performance.stats() }
-      : {};
 
     return {
       ...performanceStats,
@@ -91,16 +91,16 @@ function engine({ input, sudokuBoxConfig }) {
     };
   }
 
+  performance.stopTimer();
+  const performanceStats = sudokuBoxConfig?.logPerformance
+    ? { performance: performance.stats() }
+    : {};
+
   logging.debug({
     moduleName: 'Engine',
     functionName: 'engine',
     message: 'EXITING engine block'
   });
-
-  performance.stopTimer();
-  const performanceStats = sudokuBoxConfig?.logPerformance
-    ? { performance: performance.stats() }
-    : {};
 
   return { isPuzzleSolved, isBoardValid, output, board, ...performanceStats };
 }
