@@ -17,7 +17,7 @@ const PerformanceHelper = require('./helpers/performance-helper');
  * Engine to solve the puzzle.
  * @param {number[]} input This is the input one dimensional array.
  * @param {{ verbose: boolean, logPerformance: boolean }} sudokuBoxConfig This is an object of configuration.
- * @returns {{isPuzzleSolved: boolean, error: {message}}|{output: number[], isPuzzleSolved: boolean, isBoardValid: boolean, board: number[][], performance: { duration: {} } }}
+ * @returns {{output: number[], isPuzzleSolved: boolean, isBoardValid: boolean, board: number[][], performance: {} }}
  */
 function engine({ input, sudokuBoxConfig }) {
   const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose });
