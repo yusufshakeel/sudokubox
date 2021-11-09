@@ -11,6 +11,11 @@ function BoardSolver({
   solutionValidator,
   boardValidator
 }) {
+  /**
+   * This will solve the board.
+   * @param {number[][]} inputBoard
+   * @returns {{output: number[], isPuzzleSolved: boolean, isBoardChanged: boolean, isBoardValid: boolean, board: number[][]}}
+   */
   this.solve = inputBoard => {
     logging.debug({
       moduleName: 'BoardSolver',

@@ -16,8 +16,8 @@ const PerformanceHelper = require('./helpers/performance-helper');
 /**
  * Engine to solve the puzzle.
  * @param {number[]} input This is the input one dimensional array.
- * @param {{ verbose: boolean }} sudokuBoxConfig This is an object of configuration.
- * @returns {{isPuzzleSolved: boolean, error: {message}}|{output: number[], isPuzzleSolved: boolean, board: number[][], performance: {duration: {string: number} } }}
+ * @param {{ verbose: boolean, logPerformance: boolean }} sudokuBoxConfig This is an object of configuration.
+ * @returns {{output: number[], isPuzzleSolved: boolean, isBoardValid: boolean, board: number[][], performance: {} }}
  */
 function engine({ input, sudokuBoxConfig }) {
   const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose });
@@ -59,7 +59,7 @@ function engine({ input, sudokuBoxConfig }) {
     boardValidator
   });
 
-  const { isPuzzleSolved, output, board } = boardSolver.solve(inputBoard);
+  const { isPuzzleSolved, isBoardValid, output, board } = boardSolver.solve(inputBoard);
 
   if (!isPuzzleSolved) {
     logging.debug({
@@ -77,8 +77,15 @@ function engine({ input, sudokuBoxConfig }) {
       message: 'EXITING solve board by backtracking block'
     });
 
+    performance.stopTimer();
+    const performanceStats = sudokuBoxConfig?.logPerformance
+      ? { performance: performance.stats() }
+      : {};
+
     return {
+      ...performanceStats,
       isPuzzleSolved: backtrackingResult.isPuzzleSolved,
+      isBoardValid: backtrackingResult.isBoardValid,
       output: backtrackingResult.output,
       board: backtrackingResult.board
     };
@@ -95,7 +102,7 @@ function engine({ input, sudokuBoxConfig }) {
     ? { performance: performance.stats() }
     : {};
 
-  return { isPuzzleSolved, output, board, ...performanceStats };
+  return { isPuzzleSolved, isBoardValid, output, board, ...performanceStats };
 }
 
 module.exports = engine;

@@ -4,6 +4,11 @@ const StackHelper = require('../helpers/stack-helper');
 const { getFirstMarkupWithLessNumberOfValues, getOutputArrayFromBoard } = require('../helpers');
 
 function BacktrackBoardSolver({ logging, markupBuilder, boardSolver }) {
+  /**
+   * This will solve the board.
+   * @param {number[][]} partiallySolvedInputBoard
+   * @returns {{output: number[], isPuzzleSolved: boolean, isBoardChanged: boolean, isBoardValid: boolean, board: number[][]}}
+   */
   this.solve = partiallySolvedInputBoard => {
     logging.debug({
       moduleName: 'BacktrackBoardSolver',
