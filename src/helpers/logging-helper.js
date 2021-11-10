@@ -10,7 +10,7 @@ function LoggingHelper(config = {}) {
         JSON.stringify({
           timestamp: time(),
           type: 'DEBUG',
-          data: data
+          data
         })
       );
   };

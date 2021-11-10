@@ -1,7 +1,8 @@
 # sudokubox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/sudokubox)
-[![npm version](https://img.shields.io/badge/npm-0.21.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
+[![npm version](https://img.shields.io/badge/npm-0.22.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
+[![npm Downloads](https://img.shields.io/npm/dm/sudokubox.svg)](https://www.npmjs.com/package/sudokubox)
 
 SudokuBox is an open source project that solves 9x9 sudoku puzzle.
 
