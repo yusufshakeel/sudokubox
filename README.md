@@ -1,7 +1,7 @@
 # sudokubox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/sudokubox)
-[![npm version](https://img.shields.io/badge/npm-0.22.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
+[![npm version](https://img.shields.io/badge/npm-0.23.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
 [![npm Downloads](https://img.shields.io/npm/dm/sudokubox.svg)](https://www.npmjs.com/package/sudokubox)
 
 SudokuBox is an open source project that solves 9x9 sudoku puzzle.
@@ -12,6 +12,8 @@ SudokuBox is an open source project that solves 9x9 sudoku puzzle.
   * [Install](#install)
   * [Require](#require)
   * [Solve](#solve)
+  * [Is valid input](#is-valid-input)
+  * [Is valid board](#is-valid-board)
   * [Error](#error)
   * [Config](#config)
     * [verbose](#verbose)
@@ -48,7 +50,7 @@ const sudokuBox = new SudokuBox();
 
 const input = [ /* this has 81 elements */ ];
 
-const result = sudokuBox.solve({ input })
+const result = sudokuBox.solve({ input });
 ```
 
 The `result` will have value like the following:
@@ -65,6 +67,55 @@ The `result` will have value like the following:
 If `isPuzzleSolved` is `false` then the puzzle was not solved.
 
 If `isBoardValid` is `false` then the board is not valid and can't be solved.
+
+### Is valid input
+
+This is to check the validity of the one dimensional input array (having 81 elements).
+
+```javascript
+const sudokuBox = new SudokuBox();
+
+const input = [ /* this has 81 elements */ ];
+
+const result = sudokuBox.isValidInput({ input });
+```
+
+It will return `true` if input is valid.
+
+Note!
+* Input array can have empty cells (denoted by `0`).
+
+Valid means if a number N appears in a given cell C(r,c) then
+that number does not reappear in the
+
+  * row (r)
+  * column (c)
+  * sub board SB(r,c)
+
+### Is valid board
+
+This is same as `isValidInput` but it checks the validity of the two dimensional array (9x9)
+representing the board.
+
+```javascript
+const sudokuBox = new SudokuBox();
+
+const board = [
+  [/* 9 elements */],
+  [/* 9 elements */],
+  [/* 9 elements */],
+  [/* 9 elements */],
+  [/* 9 elements */],
+  [/* 9 elements */],
+  [/* 9 elements */],
+  [/* 9 elements */],
+  [/* 9 elements */],
+];
+
+const result = sudokuBox.isValidBoard({ board });
+```
+
+It will return `true` if board is valid.
 
 ### Error
 
