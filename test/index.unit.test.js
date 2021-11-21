@@ -1,5 +1,6 @@
 'use strict';
 
+const fs = require('fs');
 const SudokuBox = require('../index');
 const { input, puzzle, solution } = require('./test-data/sudoku-puzzle-easy');
 const {
@@ -9,8 +10,18 @@ const {
 
 describe('SudokuBox', () => {
   describe('solve', () => {
+    const logfile = `${__dirname}/../output/test-${new Date().getTime()}.log`;
+
+    beforeEach(() => {
+      fs.writeFileSync(logfile, '', 'utf8');
+    });
+
+    afterEach(() => {
+      fs.unlinkSync(logfile);
+    });
+
     test('Should solve puzzle', () => {
-      const sudokuBox = new SudokuBox({ logPerformance: true });
+      const sudokuBox = new SudokuBox({ logPerformance: true, logfile });
       let result = sudokuBox.solve({ input });
       console.info(result);
       expect(result.isPuzzleSolved).toBeTruthy();
@@ -24,6 +35,7 @@ describe('SudokuBox', () => {
           second: expect.any(Number)
         }
       });
+      expect(fs.existsSync(logfile)).toBeTruthy();
     });
   });
 

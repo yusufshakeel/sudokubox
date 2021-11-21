@@ -1,5 +1,6 @@
 'use strict';
 
+const fs = require('fs');
 const BoardBuilder = require('./builders/board-builder');
 const MarkupBuilder = require('./builders/markup-builder');
 const PreemptiveSetBuilder = require('./builders/preemptive-set-builder');
@@ -20,7 +21,11 @@ const PerformanceHelper = require('./helpers/performance-helper');
  * @returns {{output: number[], isPuzzleSolved: boolean, isBoardValid: boolean, board: number[][], performance: {} }}
  */
 function engine({ input, sudokuBoxConfig }) {
-  const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose === true });
+  const logging = new LoggingHelper({
+    isLoggingEnabled: sudokuBoxConfig?.verbose === true,
+    logfile: sudokuBoxConfig?.logfile,
+    fs
+  });
   const performance = new PerformanceHelper({
     logPerformance: sudokuBoxConfig?.logPerformance === true
   });

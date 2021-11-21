@@ -1,5 +1,6 @@
 'use strict';
 
+const fs = require('fs');
 const LoggingHelper = require('../../../src/helpers/logging-helper');
 
 describe('LoggingHelper', () => {
@@ -31,6 +32,36 @@ describe('LoggingHelper', () => {
         test('Should log', () => {
           const loggingHelper = new LoggingHelper();
           expect(() => loggingHelper.debug('Some data')).not.toThrow();
+        });
+      });
+    });
+  });
+
+  describe('When logging to a file', () => {
+    describe('Debug', () => {
+      const logfile = `${__dirname}/../../../output/test.log`;
+
+      beforeEach(() => {
+        fs.writeFileSync(logfile, '', 'utf8');
+      });
+
+      afterEach(() => {
+        fs.unlinkSync(logfile);
+      });
+
+      test('Should log', () => {
+        const config = {
+          fs,
+          LOG: { debug: jest.fn() },
+          logfile
+        };
+        const loggingHelper = new LoggingHelper(config);
+        loggingHelper.debug('Some data');
+        const log = fs.readFileSync(logfile, 'utf8');
+        expect(JSON.parse(log)).toStrictEqual({
+          timestamp: expect.any(String),
+          type: 'DEBUG',
+          data: 'Some data'
         });
       });
     });

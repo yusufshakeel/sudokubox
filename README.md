@@ -18,6 +18,7 @@ SudokuBox is an open source project that solves 9x9 sudoku puzzle.
   * [Config](#config)
     * [verbose](#verbose)
     * [logPerformance](#logperformance)
+    * [logfile](#logfile)
 * [Sudoku board](#sudoku-board)
 * [Input](#input)
 * [Output](#output)
@@ -109,7 +110,7 @@ const board = [
   [/* 9 elements */],
   [/* 9 elements */],
   [/* 9 elements */],
-  [/* 9 elements */],
+  [/* 9 elements */]
 ];
 
 const result = sudokuBox.isValidBoard({ board });
@@ -179,6 +180,17 @@ When `logPerformance` is `true` then result will look like the following.
 ```
 
 Default: `logPerformance: false`
+
+#### logfile
+
+To save the logs in a file set the `logfile`.
+
+```javascript
+const config = { logfile: '/path/to/filename.log' };
+const sudokuBox = new SudokuBox(config);
+```
+
+Note! The log file is created if it is not present and the log entries are appended.
 
 ## Sudoku board
 
