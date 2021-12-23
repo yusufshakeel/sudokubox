@@ -23,7 +23,8 @@ const {
   filterMarkup,
   omitMarkup,
   updateBoardMarkupUsingPreemptiveSet,
-  getFirstMarkupWithLessNumberOfValues
+  getFirstMarkupWithLessNumberOfValues,
+  getRandomInteger
 } = require('../../../src/helpers');
 
 const { puzzle, solution, output } = require('../../test-data/sudoku-puzzle-easy');
@@ -451,5 +452,13 @@ describe('getFirstMarkupWithLessNumberOfValues', () => {
       columnIndex: 5,
       values: [2, 3]
     });
+  });
+});
+
+describe('getRandomInteger', () => {
+  test('Should be able to generate random integer', () => {
+    expect(getRandomInteger(0, 0)).toBe(0);
+    expect(getRandomInteger(10, 20)).toBeGreaterThanOrEqual(10);
+    expect(getRandomInteger(10, 20)).toBeLessThanOrEqual(20);
   });
 });

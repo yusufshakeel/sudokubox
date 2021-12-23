@@ -20,6 +20,10 @@ function SudokuBox(config) {
   this.isValidBoard = ({ board }) => {
     return engine.isValidBoard({ board, sudokuBoxConfig });
   };
+
+  this.generate = ({ level }) => {
+    return engine.generate({ level, sudokuBoxConfig });
+  };
 }
 
 module.exports = SudokuBox;

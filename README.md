@@ -1,10 +1,10 @@
 # sudokubox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/sudokubox)
-[![npm version](https://img.shields.io/badge/npm-0.24.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
+[![npm version](https://img.shields.io/badge/npm-0.25.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
 [![npm Downloads](https://img.shields.io/npm/dm/sudokubox.svg)](https://www.npmjs.com/package/sudokubox)
 
-SudokuBox is an open source project that solves 9x9 sudoku puzzle.
+SudokuBox is an open source project that solves and generates 9x9 sudoku puzzle.
 
 ## Table of content
 
@@ -14,6 +14,7 @@ SudokuBox is an open source project that solves 9x9 sudoku puzzle.
   * [Solve](#solve)
   * [Is valid input](#is-valid-input)
   * [Is valid board](#is-valid-board)
+  * [Generate](#generate)
   * [Config](#config)
     * [verbose](#verbose)
     * [logPerformance](#logperformance)
@@ -154,6 +155,42 @@ For error case the response will be like the following:
     "message": "Some error message"
   }
 }
+```
+
+### Generate
+
+Call `generate` with level to get a new puzzle.
+
+```javascript
+const sudokuBox = new SudokuBox();
+
+const puzzleConfig = { /* some config */ };
+
+const { puzzle, board, totalCellsFilled } = sudokuBox.generate(puzzleConfig);
+```
+
+Note! 
+* `puzzle` is a one dimensional array of size 81.
+* `board` is a two-dimensional array having 9 rows and 9 columns.
+* `totalCellsFilled` denotes the total number of cells filled in the puzzle.
+
+#### Puzzle Config
+
+Following are the configurations to generate puzzles.
+
+```javascript
+{
+  level: 'string'
+}
+```
+
+For `level` set the following values.
+
+```text
+EASY
+MEDIUM
+HARD
+EXTREME
 ```
 
 ### Config
