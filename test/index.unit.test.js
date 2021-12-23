@@ -6,6 +6,8 @@ const {
   input: inputInvalid,
   puzzle: boardInvalid
 } = require('./test-data/sudoku-puzzle-invalid-input');
+const BoardValidator = require('../src/validators/board-validator');
+const { GENERATE_PUZZLE } = require('../src/constants');
 
 describe('SudokuBox', () => {
   describe('solve', () => {
@@ -55,6 +57,32 @@ describe('SudokuBox', () => {
       test('Should return false', () => {
         const sudokuBox = new SudokuBox();
         expect(sudokuBox.isValidBoard({ board: boardInvalid })).toBeFalsy();
+      });
+    });
+  });
+
+  describe('generate', () => {
+    test('Should return puzzle', () => {
+      const sudokuBox = new SudokuBox({ logPerformance: true });
+      const boardValidator = new BoardValidator();
+      const { puzzle, board, totalCellsFilled, performance } = sudokuBox.generate({
+        level: 'EASY'
+      });
+      expect(puzzle).toHaveLength(81);
+      expect(boardValidator.isValid(board)).toBeTruthy();
+      expect(totalCellsFilled).toBeLessThanOrEqual(
+        GENERATE_PUZZLE.EASY.MAXIMUM_NUMBER_OF_CELLS_TO_FILL
+      );
+      expect(totalCellsFilled).toBeGreaterThanOrEqual(
+        GENERATE_PUZZLE.EASY.MINIMUM_NUMBER_OF_CELLS_TO_FILL
+      );
+      expect(performance).toStrictEqual({
+        duration: {
+          nano: expect.any(Number),
+          micro: expect.any(Number),
+          milli: expect.any(Number),
+          second: expect.any(Number)
+        }
       });
     });
   });

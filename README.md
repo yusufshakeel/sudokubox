@@ -1,10 +1,10 @@
 # sudokubox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/sudokubox)
-[![npm version](https://img.shields.io/badge/npm-0.24.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
+[![npm version](https://img.shields.io/badge/npm-0.25.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
 [![npm Downloads](https://img.shields.io/npm/dm/sudokubox.svg)](https://www.npmjs.com/package/sudokubox)
 
-SudokuBox is an open source project that solves 9x9 sudoku puzzle.
+SudokuBox is an open source project that solves and generates 9x9 sudoku puzzle.
 
 ## Table of content
 
@@ -166,8 +166,13 @@ const sudokuBox = new SudokuBox();
 
 const puzzleConfig = { /* some config */ };
 
-const puzzle = sudokuBox.generate(puzzleConfig);
+const { puzzle, board, totalCellsFilled } = sudokuBox.generate(puzzleConfig);
 ```
+
+Note! 
+* `puzzle` is a one dimensional array of size 81.
+* `board` is a two-dimensional array having 9 rows and 9 columns.
+* `totalCellsFilled` denotes the total number of cells filled in the puzzle.
 
 #### Puzzle Config
 
