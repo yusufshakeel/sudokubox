@@ -1,9 +1,7 @@
 'use strict';
 
 const defaultConfig = require('./src/configs');
-const engine = require('./src/engine');
-const BoardValidator = require('./src/validators/board-validator');
-const BoardBuilder = require('./src/builders/board-builder');
+const engine = require('./src/engine')();
 
 function SudokuBox(config) {
   const sudokuBoxConfig = {
@@ -11,19 +9,16 @@ function SudokuBox(config) {
     ...config
   };
 
-  const boardValidator = new BoardValidator();
-
   this.solve = ({ input }) => {
-    return engine({ input, sudokuBoxConfig });
+    return engine.solve({ input, sudokuBoxConfig });
   };
 
   this.isValidInput = ({ input }) => {
-    const board = new BoardBuilder(input).build();
-    return boardValidator.isValid(board);
+    return engine.isValidInput({ input, sudokuBoxConfig });
   };
 
   this.isValidBoard = ({ board }) => {
-    return boardValidator.isValid(board);
+    return engine.isValidBoard({ board, sudokuBoxConfig });
   };
 }
 

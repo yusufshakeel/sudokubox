@@ -1,7 +1,7 @@
 # sudokubox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/sudokubox)
-[![npm version](https://img.shields.io/badge/npm-0.23.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
+[![npm version](https://img.shields.io/badge/npm-0.24.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
 [![npm Downloads](https://img.shields.io/npm/dm/sudokubox.svg)](https://www.npmjs.com/package/sudokubox)
 
 SudokuBox is an open source project that solves 9x9 sudoku puzzle.
@@ -14,7 +14,6 @@ SudokuBox is an open source project that solves 9x9 sudoku puzzle.
   * [Solve](#solve)
   * [Is valid input](#is-valid-input)
   * [Is valid board](#is-valid-board)
-  * [Error](#error)
   * [Config](#config)
     * [verbose](#verbose)
     * [logPerformance](#logperformance)
@@ -68,6 +67,19 @@ If `isPuzzleSolved` is `false` then the puzzle was not solved.
 
 If `isBoardValid` is `false` then the board is not valid and can't be solved.
 
+#### Error
+
+For error case the response will be like the following:
+
+```
+{
+  "isPuzzleSolved": false,
+  "error": {
+    "message": "Some error message"
+  }
+}
+```
+
 ### Is valid input
 
 This is to check the validity of the one dimensional input array (having 81 elements).
@@ -81,6 +93,20 @@ const result = sudokuBox.isValidInput({ input });
 ```
 
 It will return `true` if input is valid.
+
+#### Error
+
+For error case the response will be like the following:
+
+```
+{
+  "isValidInput": false,
+  "error": {
+    "message": "Some error message"
+  }
+}
+```
+
 
 Note!
 * Input array can have empty cells (denoted by `0`).
@@ -117,13 +143,13 @@ const result = sudokuBox.isValidBoard({ board });
 
 It will return `true` if board is valid.
 
-### Error
+#### Error
 
 For error case the response will be like the following:
 
 ```
 {
-  "isPuzzleSolved": false,
+  "isValidBoard": false,
   "error": {
     "message": "Some error message"
   }

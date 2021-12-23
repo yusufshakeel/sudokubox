@@ -13,92 +13,153 @@ const BoardValidator = require('./validators/board-validator');
 const LoggingHelper = require('./helpers/logging-helper');
 const PerformanceHelper = require('./helpers/performance-helper');
 
-/**
- * Engine to solve the puzzle.
- * @param {number[]} input This is the input one dimensional array.
- * @param {{ verbose: boolean, logPerformance: boolean }} sudokuBoxConfig This is an object of configuration.
- * @returns {{output: number[], isPuzzleSolved: boolean, isBoardValid: boolean, board: number[][], performance: {} }}
- */
-function engine({ input, sudokuBoxConfig }) {
-  const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose === true });
-  const performance = new PerformanceHelper({
-    logPerformance: sudokuBoxConfig?.logPerformance === true
-  });
-
-  logging.debug({
-    moduleName: 'Engine',
-    functionName: 'engine',
-    message: 'ENTERED engine block'
-  });
-
-  performance.startTimer();
-
-  const inputBoard = new BoardBuilder(input).build();
-
-  try {
-    new InputValidator().validate(inputBoard);
-  } catch (e) {
-    return {
-      isPuzzleSolved: false,
-      error: { message: e.message }
-    };
-  }
-
-  const markupBuilder = new MarkupBuilder({ logging });
-  const preemptiveSetBuilder = new PreemptiveSetBuilder({ logging });
-  const markupSolver = new MarkupSolver({ logging });
-  const preemptiveSetSolver = new PreemptiveSetSolver({ logging });
-  const solutionValidator = new SolutionValidator();
-  const boardValidator = new BoardValidator();
-
-  const boardSolver = new BoardSolver({
-    logging,
-    markupBuilder,
-    preemptiveSetBuilder,
-    markupSolver,
-    preemptiveSetSolver,
-    solutionValidator,
-    boardValidator
-  });
-
-  const { isPuzzleSolved, isBoardValid, output, board } = boardSolver.solve(inputBoard);
-
-  if (!isPuzzleSolved) {
-    logging.debug({
-      moduleName: 'Engine',
-      functionName: 'engine',
-      message: 'ENTERED solve board by backtracking block'
+module.exports = function engine() {
+  /**
+   * Engine to solve the puzzle.
+   * @param {number[]} input This is the input one dimensional array.
+   * @param {{ verbose: boolean, logPerformance: boolean }} sudokuBoxConfig This is an object of configuration.
+   * @returns {{output: number[], isPuzzleSolved: boolean, isBoardValid: boolean, board: number[][], performance: {} }}
+   */
+  const solve = function solve({ input, sudokuBoxConfig }) {
+    const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose === true });
+    const performance = new PerformanceHelper({
+      logPerformance: sudokuBoxConfig?.logPerformance === true
     });
 
-    const backtrackBoardSolver = new BacktrackBoardSolver({ logging, markupBuilder, boardSolver });
-    const backtrackingResult = backtrackBoardSolver.solve(board);
+    logging.debug({
+      moduleName: 'Engine',
+      functionName: 'solve',
+      message: 'ENTERED engine block'
+    });
+
+    performance.startTimer();
+
+    const inputBoard = new BoardBuilder(input).build();
+
+    try {
+      new InputValidator().validate(inputBoard);
+    } catch (e) {
+      return {
+        isPuzzleSolved: false,
+        error: { message: e.message }
+      };
+    }
+
+    const markupBuilder = new MarkupBuilder({ logging });
+    const preemptiveSetBuilder = new PreemptiveSetBuilder({ logging });
+    const markupSolver = new MarkupSolver({ logging });
+    const preemptiveSetSolver = new PreemptiveSetSolver({ logging });
+    const solutionValidator = new SolutionValidator();
+    const boardValidator = new BoardValidator();
+
+    const boardSolver = new BoardSolver({
+      logging,
+      markupBuilder,
+      preemptiveSetBuilder,
+      markupSolver,
+      preemptiveSetSolver,
+      solutionValidator,
+      boardValidator
+    });
+
+    const { isPuzzleSolved, isBoardValid, output, board } = boardSolver.solve(inputBoard);
+
+    if (!isPuzzleSolved) {
+      logging.debug({
+        moduleName: 'Engine',
+        functionName: 'solve',
+        message: 'ENTERED solve board by backtracking block'
+      });
+
+      const backtrackBoardSolver = new BacktrackBoardSolver({
+        logging,
+        markupBuilder,
+        boardSolver
+      });
+      const backtrackingResult = backtrackBoardSolver.solve(board);
+
+      performance.stopTimer();
+
+      logging.debug({
+        moduleName: 'Engine',
+        functionName: 'solve',
+        message: 'EXITING solve board by backtracking block'
+      });
+
+      return {
+        isPuzzleSolved: backtrackingResult.isPuzzleSolved,
+        isBoardValid: backtrackingResult.isBoardValid,
+        output: backtrackingResult.output,
+        board: backtrackingResult.board,
+        performance: performance.stats()
+      };
+    }
 
     performance.stopTimer();
 
     logging.debug({
       moduleName: 'Engine',
-      functionName: 'engine',
-      message: 'EXITING solve board by backtracking block'
+      functionName: 'solve',
+      message: 'EXITING engine block'
     });
 
-    return {
-      isPuzzleSolved: backtrackingResult.isPuzzleSolved,
-      isBoardValid: backtrackingResult.isBoardValid,
-      output: backtrackingResult.output,
-      board: backtrackingResult.board,
-      performance: performance.stats()
-    };
-  }
+    return { isPuzzleSolved, isBoardValid, output, board, performance: performance.stats() };
+  };
 
-  performance.stopTimer();
+  /**
+   * Returns true if input is valid, false otherwise.
+   * @param {number[]} input This is the input one dimensional array.
+   * @param {{ verbose: boolean, logPerformance: boolean }} sudokuBoxConfig This is an object of configuration.
+   * @return {boolean|{error: {message: string}, isValidInput: boolean}}
+   */
+  const isValidInput = function isValidInput({ input, sudokuBoxConfig }) {
+    const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose === true });
+    try {
+      const boardValidator = new BoardValidator();
+      const board = new BoardBuilder(input).build();
+      return boardValidator.isValid(board);
+    } catch (e) {
+      logging.debug({
+        moduleName: 'Engine',
+        functionName: 'isValidInput',
+        message: 'ENTERED catch block',
+        isValidInput: false,
+        error: { message: e.message }
+      });
 
-  logging.debug({
-    moduleName: 'Engine',
-    functionName: 'engine',
-    message: 'EXITING engine block'
-  });
+      return {
+        isValidInput: false,
+        error: { message: e.message }
+      };
+    }
+  };
 
-  return { isPuzzleSolved, isBoardValid, output, board, performance: performance.stats() };
-}
+  /**
+   * Returns true if board is valid, false otherwise.
+   * @param {numbers[][]} board This is the two-dimensional board array.
+   * @param {{ verbose: boolean, logPerformance: boolean }} sudokuBoxConfig This is an object of configuration.
+   * @return {boolean|{error: {message: string}, isValidBoard: boolean}}
+   */
+  const isValidBoard = function isValidBoard({ board, sudokuBoxConfig }) {
+    const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose === true });
+    try {
+      const boardValidator = new BoardValidator();
+      return boardValidator.isValid(board);
+    } catch (e) {
+      logging.debug({
+        moduleName: 'Engine',
+        functionName: 'isValidBoard',
+        message: 'ENTERED catch block',
+        isValidBoard: false,
+        error: { message: e.message }
+      });
 
-module.exports = engine;
+      return {
+        isValidBoard: false,
+        error: { message: e.message }
+      };
+    }
+  };
+
+  return { solve, isValidInput, isValidBoard };
+};
