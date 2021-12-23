@@ -163,6 +163,12 @@ module.exports = function engine() {
     }
   };
 
+  /**
+   * This will generate puzzle.
+   * @param {string} level
+   * @param {{ verbose: boolean, logPerformance: boolean }} sudokuBoxConfig This is an object of configuration.
+   * @return {{error: {message: string}}|{totalCellsFilled: number, performance: {}, puzzle: number[], board: number[][]}}
+   */
   const generate = function generate({ level, sudokuBoxConfig }) {
     const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose === true });
 
@@ -196,7 +202,7 @@ module.exports = function engine() {
     logging.debug({
       moduleName: 'engine',
       functionName: 'generate',
-      message: 'ENTERED generate block'
+      message: 'EXITING generate block'
     });
 
     return { puzzle, board, totalCellsFilled, performance };
