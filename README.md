@@ -14,6 +14,7 @@ SudokuBox is an open source project that solves 9x9 sudoku puzzle.
   * [Solve](#solve)
   * [Is valid input](#is-valid-input)
   * [Is valid board](#is-valid-board)
+  * [Generate](#generate)
   * [Config](#config)
     * [verbose](#verbose)
     * [logPerformance](#logperformance)
@@ -154,6 +155,37 @@ For error case the response will be like the following:
     "message": "Some error message"
   }
 }
+```
+
+### Generate
+
+Call `generate` with level to get a new puzzle.
+
+```javascript
+const sudokuBox = new SudokuBox();
+
+const puzzleConfig = { /* some config */ };
+
+const puzzle = sudokuBox.generate(puzzleConfig);
+```
+
+#### Puzzle Config
+
+Following are the configurations to generate puzzles.
+
+```javascript
+{
+  level: 'string'
+}
+```
+
+For `level` set the following values.
+
+```text
+EASY
+MEDIUM
+HARD
+EXTREME
 ```
 
 ### Config

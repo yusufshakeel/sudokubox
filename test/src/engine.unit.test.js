@@ -1,6 +1,9 @@
 'use strict';
 
 const engine = require('../../src/engine')();
+const BoardValidator = require('../../src/validators/board-validator');
+
+const { GENERATE_PUZZLE } = require('../../src/constants');
 
 const {
   input: easyPuzzleInput,
@@ -155,6 +158,45 @@ describe('isValidBoard', () => {
         isValidBoard: false,
         error: {
           message: "Cannot read property '0' of undefined"
+        }
+      });
+    });
+  });
+});
+
+describe('generate', () => {
+  describe('When level is wrong', () => {
+    test('Should return error message', () => {
+      const result = engine.generate({ level: 'UNKNOWN' });
+      expect(result).toStrictEqual({
+        error: {
+          message: 'Level not found. Use one of the following: EASY,MEDIUM,HARD,EXTREME'
+        }
+      });
+    });
+  });
+
+  describe('When level is correct', () => {
+    test('Should return puzzle', () => {
+      const boardValidator = new BoardValidator();
+      const { puzzle, board, totalCellsFilled, performance } = engine.generate({
+        level: 'EASY',
+        sudokuBoxConfig: { logPerformance: true }
+      });
+      expect(puzzle).toHaveLength(81);
+      expect(boardValidator.isValid(board)).toBeTruthy();
+      expect(totalCellsFilled).toBeLessThanOrEqual(
+        GENERATE_PUZZLE.EASY.MAXIMUM_NUMBER_OF_CELLS_TO_FILL
+      );
+      expect(totalCellsFilled).toBeGreaterThanOrEqual(
+        GENERATE_PUZZLE.EASY.MINIMUM_NUMBER_OF_CELLS_TO_FILL
+      );
+      expect(performance).toStrictEqual({
+        duration: {
+          nano: expect.any(Number),
+          micro: expect.any(Number),
+          milli: expect.any(Number),
+          second: expect.any(Number)
         }
       });
     });

@@ -3,6 +3,7 @@
 const BoardBuilder = require('./builders/board-builder');
 const MarkupBuilder = require('./builders/markup-builder');
 const PreemptiveSetBuilder = require('./builders/preemptive-set-builder');
+const PuzzleBuilder = require('./builders/puzzle-builder');
 const MarkupSolver = require('./solvers/markup-solver');
 const PreemptiveSetSolver = require('./solvers/preemptive-set-solver');
 const BoardSolver = require('./solvers/board-solver');
@@ -12,6 +13,7 @@ const InputValidator = require('./validators/input-validator');
 const BoardValidator = require('./validators/board-validator');
 const LoggingHelper = require('./helpers/logging-helper');
 const PerformanceHelper = require('./helpers/performance-helper');
+const { GENERATE_PUZZLE } = require('./constants');
 
 module.exports = function engine() {
   /**
@@ -161,5 +163,44 @@ module.exports = function engine() {
     }
   };
 
-  return { solve, isValidInput, isValidBoard };
+  const generate = function generate({ level, sudokuBoxConfig }) {
+    const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose === true });
+
+    logging.debug({
+      moduleName: 'engine',
+      functionName: 'generate',
+      message: 'ENTERED generate block'
+    });
+
+    const availableLevels = Object.keys(GENERATE_PUZZLE);
+
+    if (!availableLevels.includes(level)) {
+      logging.debug({
+        moduleName: 'engine',
+        functionName: 'generate',
+        message: 'Level not found!'
+      });
+      return {
+        error: { message: `Level not found. Use one of the following: ${availableLevels}` }
+      };
+    }
+
+    const { MINIMUM_NUMBER_OF_CELLS_TO_FILL, MAXIMUM_NUMBER_OF_CELLS_TO_FILL } =
+      GENERATE_PUZZLE[level];
+
+    const { puzzle, board, totalCellsFilled, performance } = new PuzzleBuilder({ sudokuBoxConfig })
+      .withMinimumNumberOfCellsToFill(MINIMUM_NUMBER_OF_CELLS_TO_FILL)
+      .withMaximumNumberOfCellsToFill(MAXIMUM_NUMBER_OF_CELLS_TO_FILL)
+      .build();
+
+    logging.debug({
+      moduleName: 'engine',
+      functionName: 'generate',
+      message: 'ENTERED generate block'
+    });
+
+    return { puzzle, board, totalCellsFilled, performance };
+  };
+
+  return { solve, isValidInput, isValidBoard, generate };
 };

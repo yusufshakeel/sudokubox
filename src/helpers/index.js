@@ -393,6 +393,18 @@ function getFirstMarkupWithLessNumberOfValues(markup) {
   return { cell, rowIndex, columnIndex, values };
 }
 
+/**
+ * This will return an integer value between start and end both inclusive.
+ * @param {number} start
+ * @param {number} end
+ * @return {number}
+ */
+function getRandomInteger(start, end) {
+  const min = Math.ceil(start);
+  const max = Math.floor(end);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 module.exports = {
   getRow,
   getColumn,
@@ -416,5 +428,6 @@ module.exports = {
   filterMarkup,
   omitMarkup,
   updateBoardMarkupUsingPreemptiveSet,
-  getFirstMarkupWithLessNumberOfValues
+  getFirstMarkupWithLessNumberOfValues,
+  getRandomInteger
 };
