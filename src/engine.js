@@ -15,23 +15,26 @@ const LoggingHelper = require('./helpers/logging-helper');
 const PerformanceHelper = require('./helpers/performance-helper');
 const { GENERATE_PUZZLE } = require('./constants');
 
-module.exports = function engine() {
+/**
+ * @param {{ verbose: boolean, logPerformance: boolean }} sudokuBoxConfig This is an object of configuration.
+ */
+module.exports = function engine({ sudokuBoxConfig }) {
+  const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose === true });
+  const performance = new PerformanceHelper({
+    logPerformance: sudokuBoxConfig?.logPerformance === true
+  });
+
   /**
    * Engine to solve the puzzle.
    * @param {number[]} input This is the input one dimensional array.
    * @param {{ verbose: boolean, logPerformance: boolean }} sudokuBoxConfig This is an object of configuration.
    * @returns {{output: number[], isPuzzleSolved: boolean, isBoardValid: boolean, board: number[][], performance: {} }}
    */
-  const solve = function solve({ input, sudokuBoxConfig }) {
-    const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose === true });
-    const performance = new PerformanceHelper({
-      logPerformance: sudokuBoxConfig?.logPerformance === true
-    });
-
+  const solve = function solve({ input }) {
     logging.debug({
       moduleName: 'Engine',
       functionName: 'solve',
-      message: 'ENTERED engine block'
+      message: 'ENTERED solve block'
     });
 
     performance.startTimer();
@@ -102,7 +105,7 @@ module.exports = function engine() {
     logging.debug({
       moduleName: 'Engine',
       functionName: 'solve',
-      message: 'EXITING engine block'
+      message: 'EXITING solve block'
     });
 
     return { isPuzzleSolved, isBoardValid, output, board, performance: performance.stats() };
@@ -111,14 +114,25 @@ module.exports = function engine() {
   /**
    * Returns true if input is valid, false otherwise.
    * @param {number[]} input This is the input one dimensional array.
-   * @param {{ verbose: boolean, logPerformance: boolean }} sudokuBoxConfig This is an object of configuration.
    * @return {boolean|{error: {message: string}, isValidInput: boolean}}
    */
-  const isValidInput = function isValidInput({ input, sudokuBoxConfig }) {
-    const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose === true });
+  const isValidInput = function isValidInput({ input }) {
     try {
+      logging.debug({
+        moduleName: 'Engine',
+        functionName: 'isValidInput',
+        message: 'ENTERED try block'
+      });
+
       const boardValidator = new BoardValidator();
       const board = new BoardBuilder(input).build();
+
+      logging.debug({
+        moduleName: 'Engine',
+        functionName: 'isValidInput',
+        message: 'EXITING try block'
+      });
+
       return boardValidator.isValid(board);
     } catch (e) {
       logging.debug({
@@ -139,13 +153,24 @@ module.exports = function engine() {
   /**
    * Returns true if board is valid, false otherwise.
    * @param {numbers[][]} board This is the two-dimensional board array.
-   * @param {{ verbose: boolean, logPerformance: boolean }} sudokuBoxConfig This is an object of configuration.
    * @return {boolean|{error: {message: string}, isValidBoard: boolean}}
    */
-  const isValidBoard = function isValidBoard({ board, sudokuBoxConfig }) {
-    const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose === true });
+  const isValidBoard = function isValidBoard({ board }) {
     try {
+      logging.debug({
+        moduleName: 'Engine',
+        functionName: 'isValidBoard',
+        message: 'ENTERED try block'
+      });
+
       const boardValidator = new BoardValidator();
+
+      logging.debug({
+        moduleName: 'Engine',
+        functionName: 'isValidBoard',
+        message: 'EXITING try block'
+      });
+
       return boardValidator.isValid(board);
     } catch (e) {
       logging.debug({
@@ -166,12 +191,9 @@ module.exports = function engine() {
   /**
    * This will generate puzzle.
    * @param {string} level
-   * @param {{ verbose: boolean, logPerformance: boolean }} sudokuBoxConfig This is an object of configuration.
    * @return {{error: {message: string}}|{totalCellsFilled: number, performance: {}, puzzle: number[], board: number[][]}}
    */
-  const generate = function generate({ level, sudokuBoxConfig }) {
-    const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose === true });
-
+  const generate = function generate({ level }) {
     logging.debug({
       moduleName: 'engine',
       functionName: 'generate',
@@ -194,7 +216,15 @@ module.exports = function engine() {
     const { MINIMUM_NUMBER_OF_CELLS_TO_FILL, MAXIMUM_NUMBER_OF_CELLS_TO_FILL } =
       GENERATE_PUZZLE[level];
 
-    const { puzzle, board, totalCellsFilled, performance } = new PuzzleBuilder({ sudokuBoxConfig })
+    const {
+      puzzle,
+      board,
+      totalCellsFilled,
+      performance: performanceStats
+    } = new PuzzleBuilder({
+      logging,
+      performance
+    })
       .withMinimumNumberOfCellsToFill(MINIMUM_NUMBER_OF_CELLS_TO_FILL)
       .withMaximumNumberOfCellsToFill(MAXIMUM_NUMBER_OF_CELLS_TO_FILL)
       .build();
@@ -205,7 +235,7 @@ module.exports = function engine() {
       message: 'EXITING generate block'
     });
 
-    return { puzzle, board, totalCellsFilled, performance };
+    return { puzzle, board, totalCellsFilled, performance: performanceStats };
   };
 
   return { solve, isValidInput, isValidBoard, generate };

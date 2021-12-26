@@ -1,7 +1,7 @@
 'use strict';
 
 const defaultConfig = require('./src/configs');
-const engine = require('./src/engine')();
+const sudokuEngine = require('./src/engine');
 
 function SudokuBox(config) {
   const sudokuBoxConfig = {
@@ -9,21 +9,15 @@ function SudokuBox(config) {
     ...config
   };
 
-  this.solve = ({ input }) => {
-    return engine.solve({ input, sudokuBoxConfig });
-  };
+  const engine = sudokuEngine({ sudokuBoxConfig });
 
-  this.isValidInput = ({ input }) => {
-    return engine.isValidInput({ input, sudokuBoxConfig });
-  };
+  this.solve = ({ input }) => engine.solve({ input });
 
-  this.isValidBoard = ({ board }) => {
-    return engine.isValidBoard({ board, sudokuBoxConfig });
-  };
+  this.isValidInput = ({ input }) => engine.isValidInput({ input });
 
-  this.generate = ({ level }) => {
-    return engine.generate({ level, sudokuBoxConfig });
-  };
+  this.isValidBoard = ({ board }) => engine.isValidBoard({ board });
+
+  this.generate = ({ level }) => engine.generate({ level });
 }
 
 module.exports = SudokuBox;

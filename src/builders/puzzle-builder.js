@@ -4,21 +4,10 @@ const { TOTAL_ROWS, TOTAL_COLUMNS } = require('../constants');
 const BoardBuilder = require('../builders/board-builder');
 const BoardValidator = require('../validators/board-validator');
 const { getRandomInteger } = require('../helpers');
-const LoggingHelper = require('../helpers/logging-helper');
-const PerformanceHelper = require('../helpers/performance-helper');
 
-/**
- * This will generate puzzle.
- * @param {{ verbose: boolean, logPerformance: boolean }} sudokuBoxConfig This is an object of configuration.
- * @constructor
- */
-function PuzzleBuilder({ sudokuBoxConfig }) {
+function PuzzleBuilder(config) {
   const self = this;
-
-  const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose === true });
-  const performance = new PerformanceHelper({
-    logPerformance: sudokuBoxConfig?.logPerformance === true
-  });
+  const { logging, performance } = config;
 
   /**
    * This will set the minimum number of cells to fill.
@@ -53,16 +42,20 @@ function PuzzleBuilder({ sudokuBoxConfig }) {
       self.minNumberOfCellsToFill,
       self.maxNumberOfCellsToFill
     );
+
     let puzzle = Array(totalNumberOfCells).fill(0);
     let board = new BoardBuilder(puzzle).build();
     let positionThatCanBeFilled = new Set(Array.from(Array(totalNumberOfCells).keys()));
+
     const totalCellsFilled = puzzle => puzzle.filter(v => v !== 0).length;
     const getRandomValue = () => getRandomInteger(1, 9);
     const getRandomIndex = () => getRandomInteger(0, positionThatCanBeFilled.size - 1);
+
     let index = getRandomIndex();
     let value = getRandomValue();
     puzzle[index] = value;
     positionThatCanBeFilled.delete(index);
+
     while (totalCellsFilled(puzzle) < totalCellsToFill) {
       let newPuzzle = [...puzzle];
       index = getRandomIndex();
@@ -86,7 +79,7 @@ function PuzzleBuilder({ sudokuBoxConfig }) {
     return {
       puzzle,
       board,
-      totalCellsFilled: totalCellsFilled(puzzle),
+      totalCellsFilled: totalCellsToFill,
       performance: performance.stats()
     };
   };
