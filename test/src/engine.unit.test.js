@@ -1,6 +1,6 @@
 'use strict';
 
-const engine = require('../../src/engine')();
+const sudokuEngine = require('../../src/engine');
 const BoardValidator = require('../../src/validators/board-validator');
 
 const { GENERATE_PUZZLE } = require('../../src/constants');
@@ -46,6 +46,7 @@ const {
 describe('solve', () => {
   describe('When input is invalid', () => {
     test('Should return result', () => {
+      const engine = sudokuEngine({});
       const result = engine.solve({ input: invalidPuzzleInput });
       expect(result.isPuzzleSolved).toBeFalsy();
       expect(result.error.message).toBe(
@@ -56,6 +57,7 @@ describe('solve', () => {
 
   describe('Solve easy puzzle', () => {
     test('Should return result', () => {
+      const engine = sudokuEngine({});
       const result = engine.solve({ input: easyPuzzleInput });
       expect(result.isPuzzleSolved).toBeTruthy();
       expect(result.board).toStrictEqual(easyPuzzleSolution);
@@ -66,6 +68,7 @@ describe('solve', () => {
 
   describe('Solve medium puzzle', () => {
     test('Should return result', () => {
+      const engine = sudokuEngine({});
       const result = engine.solve({ input: mediumPuzzleInput });
       expect(result.isPuzzleSolved).toBeTruthy();
       expect(result.board).toStrictEqual(mediumPuzzleSolution);
@@ -75,6 +78,7 @@ describe('solve', () => {
 
   describe('Solve hard puzzle', () => {
     test('Should return result', () => {
+      const engine = sudokuEngine({});
       const result = engine.solve({ input: hardPuzzleInput });
       expect(result.isPuzzleSolved).toBeTruthy();
       expect(result.board).toStrictEqual(hardPuzzleSolution);
@@ -84,6 +88,7 @@ describe('solve', () => {
 
   describe('Solve expert puzzle', () => {
     test('Should return result', () => {
+      const engine = sudokuEngine({});
       const result = engine.solve({ input: expertPuzzleInput });
       expect(result.isPuzzleSolved).toBeTruthy();
       expect(result.board).toStrictEqual(expertPuzzleSolution);
@@ -93,10 +98,8 @@ describe('solve', () => {
 
   describe('Solve evil puzzle', () => {
     test('Should return result', () => {
-      const result = engine.solve({
-        input: evilPuzzleInput,
-        sudokuBoxConfig: { logPerformance: true }
-      });
+      const engine = sudokuEngine({ sudokuBoxConfig: { logPerformance: true } });
+      const result = engine.solve({ input: evilPuzzleInput });
       expect(result.isPuzzleSolved).toBeTruthy();
       expect(result.board).toStrictEqual(evilPuzzleSolution);
       expect(result.output).toStrictEqual(evilPuzzleOutput);
@@ -106,6 +109,7 @@ describe('solve', () => {
 
   describe('Unsolvable puzzle', () => {
     test('Should return result', () => {
+      const engine = sudokuEngine({});
       const result = engine.solve({ input: unsolvablePuzzleInput });
       expect(result.isPuzzleSolved).toBeFalsy();
     });
@@ -115,18 +119,21 @@ describe('solve', () => {
 describe('isValidInput', () => {
   describe('When input is valid', () => {
     test('Should return false', () => {
+      const engine = sudokuEngine({});
       expect(engine.isValidInput({ input: invalidPuzzleInput })).toBeFalsy();
     });
   });
 
   describe('When input is invalid', () => {
     test('Should return true', () => {
+      const engine = sudokuEngine({});
       expect(engine.isValidInput({ input: easyPuzzleInput })).toBeTruthy();
     });
   });
 
   describe('When input has error', () => {
     test('Should return error message', () => {
+      const engine = sudokuEngine({});
       expect(engine.isValidInput({ input: '1', sudokuBoxConfig: { verbose: true } })).toStrictEqual(
         {
           isValidInput: false,
@@ -142,18 +149,21 @@ describe('isValidInput', () => {
 describe('isValidBoard', () => {
   describe('When board is valid', () => {
     test('Should return false', () => {
+      const engine = sudokuEngine({});
       expect(engine.isValidBoard({ board: invalidInputBoard })).toBeFalsy();
     });
   });
 
   describe('When board is invalid', () => {
     test('Should return true', () => {
+      const engine = sudokuEngine({});
       expect(engine.isValidBoard({ board: easyPuzzleBoard })).toBeTruthy();
     });
   });
 
   describe('When board as error', () => {
     test('Should return error message', () => {
+      const engine = sudokuEngine({});
       expect(engine.isValidBoard({ board: [], sudokuBoxConfig: { verbose: true } })).toStrictEqual({
         isValidBoard: false,
         error: {
@@ -167,6 +177,7 @@ describe('isValidBoard', () => {
 describe('generate', () => {
   describe('When level is wrong', () => {
     test('Should return error message', () => {
+      const engine = sudokuEngine({});
       const result = engine.generate({ level: 'UNKNOWN' });
       expect(result).toStrictEqual({
         error: {
@@ -178,11 +189,9 @@ describe('generate', () => {
 
   describe('When level is correct', () => {
     test('Should return puzzle', () => {
+      const engine = sudokuEngine({ sudokuBoxConfig: { logPerformance: true } });
       const boardValidator = new BoardValidator();
-      const { puzzle, board, totalCellsFilled, performance } = engine.generate({
-        level: 'EASY',
-        sudokuBoxConfig: { logPerformance: true }
-      });
+      const { puzzle, board, totalCellsFilled, performance } = engine.generate({ level: 'EASY' });
       expect(puzzle).toHaveLength(81);
       expect(boardValidator.isValid(board)).toBeTruthy();
       expect(totalCellsFilled).toBeLessThanOrEqual(
