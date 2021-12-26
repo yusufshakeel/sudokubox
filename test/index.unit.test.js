@@ -2,10 +2,6 @@
 
 const SudokuBox = require('../index');
 const { input, puzzle, solution } = require('./test-data/sudoku-puzzle-easy');
-const {
-  input: inputInvalid,
-  puzzle: boardInvalid
-} = require('./test-data/sudoku-puzzle-invalid-input');
 const BoardValidator = require('../src/validators/board-validator');
 const { GENERATE_PUZZLE } = require('../src/constants');
 
@@ -30,34 +26,16 @@ describe('SudokuBox', () => {
   });
 
   describe('isValidInput', () => {
-    describe('When input is valid', () => {
-      test('Should return true', () => {
-        const sudokuBox = new SudokuBox();
-        expect(sudokuBox.isValidInput({ input })).toBeTruthy();
-      });
-    });
-
-    describe('When input is invalid', () => {
-      test('Should return false', () => {
-        const sudokuBox = new SudokuBox();
-        expect(sudokuBox.isValidInput({ input: inputInvalid })).toBeFalsy();
-      });
+    test('Should be able to validate', () => {
+      const sudokuBox = new SudokuBox();
+      expect(sudokuBox.isValidInput({ input })).toStrictEqual({ isValidInput: true });
     });
   });
 
   describe('isValidBoard', () => {
-    describe('When board is valid', () => {
-      test('Should return true', () => {
-        const sudokuBox = new SudokuBox();
-        expect(sudokuBox.isValidBoard({ board: puzzle })).toBeTruthy();
-      });
-    });
-
-    describe('When board is invalid', () => {
-      test('Should return false', () => {
-        const sudokuBox = new SudokuBox();
-        expect(sudokuBox.isValidBoard({ board: boardInvalid })).toBeFalsy();
-      });
+    test('Should be able to validate', () => {
+      const sudokuBox = new SudokuBox();
+      expect(sudokuBox.isValidBoard({ board: puzzle })).toStrictEqual({ isValidBoard: true });
     });
   });
 
