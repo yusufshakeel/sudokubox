@@ -1,17 +1,26 @@
 'use strict';
 
-const { TOTAL_ROWS, TOTAL_COLUMNS } = require('../constants');
 const BoardBuilder = require('../builders/board-builder');
-const BoardValidator = require('../validators/board-validator');
 const { getRandomInteger } = require('../helpers');
 
 function PuzzleBuilder(config) {
   const self = this;
-  const { logging, performance } = config;
+  const { logging } = config;
+
+  /**
+   * This will set the input.
+   * @param {number[]} input
+   * @return {PuzzleBuilder}
+   */
+  this.withInput = input => {
+    self.input = input;
+    return self;
+  };
 
   /**
    * This will set the minimum number of cells to fill.
    * @param {number} cellCount
+   * @return {PuzzleBuilder}
    */
   this.withMinimumNumberOfCellsToFill = cellCount => {
     self.minNumberOfCellsToFill = cellCount;
@@ -21,12 +30,17 @@ function PuzzleBuilder(config) {
   /**
    * This will set the maximum number of cells to fill.
    * @param {number} cellCount
+   * @return {PuzzleBuilder}
    */
   this.withMaximumNumberOfCellsToFill = cellCount => {
     self.maxNumberOfCellsToFill = cellCount;
     return self;
   };
 
+  /**
+   * This will return the puzzle.
+   * @return {{totalCellsFilled: number, puzzle: number[], board: number[][]}}
+   */
   this.build = () => {
     logging.debug({
       moduleName: 'PuzzleBuilder',
@@ -34,41 +48,28 @@ function PuzzleBuilder(config) {
       message: 'ENTERED build block'
     });
 
-    performance.startTimer();
-
-    const boardValidator = new BoardValidator();
-    const totalNumberOfCells = TOTAL_ROWS * TOTAL_COLUMNS;
     const totalCellsToFill = getRandomInteger(
       self.minNumberOfCellsToFill,
       self.maxNumberOfCellsToFill
     );
 
-    let puzzle = Array(totalNumberOfCells).fill(0);
+    const EMPTY = 0;
+    let puzzle = [...self.input];
     let board = new BoardBuilder(puzzle).build();
-    let positionThatCanBeFilled = new Set(Array.from(Array(totalNumberOfCells).keys()));
-
+    const positionsThatCanBeEmptied = [...puzzle.keys()];
     const totalCellsFilled = puzzle => puzzle.filter(v => v !== 0).length;
-    const getRandomValue = () => getRandomInteger(1, 9);
-    const getRandomIndex = () => getRandomInteger(0, positionThatCanBeFilled.size - 1);
+    const getRandomPositionIndex = positions => getRandomInteger(0, positions.length - 1);
 
-    let index = getRandomIndex();
-    let value = getRandomValue();
-    puzzle[index] = value;
-    positionThatCanBeFilled.delete(index);
-
-    while (totalCellsFilled(puzzle) < totalCellsToFill) {
-      let newPuzzle = [...puzzle];
-      index = getRandomIndex();
-      value = getRandomValue();
-      newPuzzle[index] = value;
-      board = new BoardBuilder(newPuzzle).build();
-      if (boardValidator.isValid(board)) {
-        puzzle = [...newPuzzle];
-        positionThatCanBeFilled.delete(index);
-      }
+    let filledCells = totalCellsFilled(puzzle);
+    while (filledCells > totalCellsToFill) {
+      const index = positionsThatCanBeEmptied.splice(
+        getRandomPositionIndex(positionsThatCanBeEmptied),
+        1
+      )[0];
+      puzzle[index] = EMPTY;
+      board = new BoardBuilder(puzzle).build();
+      filledCells = totalCellsFilled(puzzle);
     }
-
-    performance.stopTimer();
 
     logging.debug({
       moduleName: 'PuzzleBuilder',
@@ -79,8 +80,7 @@ function PuzzleBuilder(config) {
     return {
       puzzle,
       board,
-      totalCellsFilled: totalCellsToFill,
-      performance: performance.stats()
+      totalCellsFilled: totalCellsFilled(puzzle)
     };
   };
 }

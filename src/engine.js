@@ -4,6 +4,7 @@ const BoardBuilder = require('./builders/board-builder');
 const MarkupBuilder = require('./builders/markup-builder');
 const PreemptiveSetBuilder = require('./builders/preemptive-set-builder');
 const PuzzleBuilder = require('./builders/puzzle-builder');
+const RandomBoardBuilder = require('./builders/random-board-builder');
 const MarkupSolver = require('./solvers/markup-solver');
 const PreemptiveSetSolver = require('./solvers/preemptive-set-solver');
 const BoardSolver = require('./solvers/board-solver');
@@ -200,6 +201,8 @@ module.exports = function engine({ sudokuBoxConfig }) {
       message: 'ENTERED generate block'
     });
 
+    performance.startTimer();
+
     const availableLevels = Object.keys(GENERATE_PUZZLE);
 
     if (!availableLevels.includes(level)) {
@@ -216,18 +219,17 @@ module.exports = function engine({ sudokuBoxConfig }) {
     const { MINIMUM_NUMBER_OF_CELLS_TO_FILL, MAXIMUM_NUMBER_OF_CELLS_TO_FILL } =
       GENERATE_PUZZLE[level];
 
-    const {
-      puzzle,
-      board,
-      totalCellsFilled,
-      performance: performanceStats
-    } = new PuzzleBuilder({
-      logging,
-      performance
-    })
+    const randomBoardBuilder = new RandomBoardBuilder({ logging, performance });
+    const { puzzle: randomBoardInput } = randomBoardBuilder.build();
+    const { output: randomPuzzleInput } = solve({ input: randomBoardInput });
+
+    const { puzzle, board, totalCellsFilled } = new PuzzleBuilder({ logging })
+      .withInput(randomPuzzleInput)
       .withMinimumNumberOfCellsToFill(MINIMUM_NUMBER_OF_CELLS_TO_FILL)
       .withMaximumNumberOfCellsToFill(MAXIMUM_NUMBER_OF_CELLS_TO_FILL)
       .build();
+
+    performance.stopTimer();
 
     logging.debug({
       moduleName: 'engine',
@@ -235,7 +237,7 @@ module.exports = function engine({ sudokuBoxConfig }) {
       message: 'EXITING generate block'
     });
 
-    return { puzzle, board, totalCellsFilled, performance: performanceStats };
+    return { puzzle, board, totalCellsFilled, performance: performance.stats() };
   };
 
   return { solve, isValidInput, isValidBoard, generate };
