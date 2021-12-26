@@ -185,7 +185,7 @@ describe('generate', () => {
       const result = engine.generate({ level: 'UNKNOWN' });
       expect(result).toStrictEqual({
         error: {
-          message: 'Level not found. Use one of the following: EASY,MEDIUM,HARD,EXTREME'
+          message: 'Level not found. Use one of the following: EASY,MEDIUM,HARD,EXTREME,DIABOLICAL'
         }
       });
     });
