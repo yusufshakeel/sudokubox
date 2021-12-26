@@ -117,17 +117,19 @@ describe('solve', () => {
 });
 
 describe('isValidInput', () => {
-  describe('When input is valid', () => {
+  describe('When input is invalid', () => {
     test('Should return false', () => {
       const engine = sudokuEngine({});
-      expect(engine.isValidInput({ input: invalidPuzzleInput })).toBeFalsy();
+      expect(engine.isValidInput({ input: invalidPuzzleInput })).toStrictEqual({
+        isValidInput: false
+      });
     });
   });
 
-  describe('When input is invalid', () => {
+  describe('When input is valid', () => {
     test('Should return true', () => {
       const engine = sudokuEngine({});
-      expect(engine.isValidInput({ input: easyPuzzleInput })).toBeTruthy();
+      expect(engine.isValidInput({ input: easyPuzzleInput })).toStrictEqual({ isValidInput: true });
     });
   });
 
@@ -147,21 +149,23 @@ describe('isValidInput', () => {
 });
 
 describe('isValidBoard', () => {
-  describe('When board is valid', () => {
+  describe('When board is invalid', () => {
     test('Should return false', () => {
       const engine = sudokuEngine({});
-      expect(engine.isValidBoard({ board: invalidInputBoard })).toBeFalsy();
+      expect(engine.isValidBoard({ board: invalidInputBoard })).toStrictEqual({
+        isValidBoard: false
+      });
     });
   });
 
-  describe('When board is invalid', () => {
+  describe('When board is valid', () => {
     test('Should return true', () => {
       const engine = sudokuEngine({});
-      expect(engine.isValidBoard({ board: easyPuzzleBoard })).toBeTruthy();
+      expect(engine.isValidBoard({ board: easyPuzzleBoard })).toStrictEqual({ isValidBoard: true });
     });
   });
 
-  describe('When board as error', () => {
+  describe('When board has error', () => {
     test('Should return error message', () => {
       const engine = sudokuEngine({});
       expect(engine.isValidBoard({ board: [], sudokuBoxConfig: { verbose: true } })).toStrictEqual({

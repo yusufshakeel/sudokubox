@@ -133,7 +133,7 @@ module.exports = function engine({ sudokuBoxConfig }) {
         message: 'EXITING try block'
       });
 
-      return boardValidator.isValid(board);
+      return { isValidInput: boardValidator.isValid(board) };
     } catch (e) {
       logging.debug({
         moduleName: 'Engine',
@@ -171,7 +171,7 @@ module.exports = function engine({ sudokuBoxConfig }) {
         message: 'EXITING try block'
       });
 
-      return boardValidator.isValid(board);
+      return { isValidBoard: boardValidator.isValid(board) };
     } catch (e) {
       logging.debug({
         moduleName: 'Engine',

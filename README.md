@@ -1,7 +1,7 @@
 # sudokubox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/sudokubox)
-[![npm version](https://img.shields.io/badge/npm-0.27.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
+[![npm version](https://img.shields.io/badge/npm-0.28.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
 [![npm Downloads](https://img.shields.io/npm/dm/sudokubox.svg)](https://www.npmjs.com/package/sudokubox)
 
 SudokuBox is an open source project that solves and generates 9x9 sudoku puzzle.
@@ -95,6 +95,12 @@ const result = sudokuBox.isValidInput({ input });
 
 It will return `true` if input is valid.
 
+```
+{
+  "isValidInput": boolean
+}
+```
+
 #### Error
 
 For error case the response will be like the following:
@@ -143,6 +149,12 @@ const result = sudokuBox.isValidBoard({ board });
 ```
 
 It will return `true` if board is valid.
+
+```
+{
+  "isValidBoard": boolean
+}
+```
 
 #### Error
 
