@@ -1,11 +1,11 @@
 'use strict';
 
-const defaultConfig = require('./src/configs');
+const { defaultSudokuBoxConfig, defaultGenerateConfig } = require('./src/configs');
 const sudokuEngine = require('./src/engine');
 
 function SudokuBox(config) {
   const sudokuBoxConfig = {
-    ...defaultConfig,
+    ...defaultSudokuBoxConfig,
     ...config
   };
 
@@ -17,7 +17,13 @@ function SudokuBox(config) {
 
   this.isValidBoard = ({ board }) => engine.isValidBoard({ board });
 
-  this.generate = ({ level }) => engine.generate({ level });
+  this.generate = config => {
+    const generateConfig = {
+      ...defaultGenerateConfig,
+      ...config
+    };
+    return engine.generate(generateConfig);
+  };
 }
 
 module.exports = SudokuBox;
