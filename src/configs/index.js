@@ -1,8 +1,12 @@
 'use strict';
 
-const defaultConfig = {
+const defaultSudokuBoxConfig = {
   verbose: false,
   logPerformance: false
 };
 
-module.exports = defaultConfig;
+const defaultGenerateConfig = {
+  level: 'EASY'
+};
+
+module.exports = { defaultSudokuBoxConfig, defaultGenerateConfig };

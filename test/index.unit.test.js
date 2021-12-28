@@ -43,9 +43,7 @@ describe('SudokuBox', () => {
     test('Should return puzzle', () => {
       const sudokuBox = new SudokuBox({ logPerformance: true });
       const boardValidator = new BoardValidator();
-      const { puzzle, board, totalCellsFilled, performance } = sudokuBox.generate({
-        level: 'EASY'
-      });
+      const { puzzle, board, totalCellsFilled, performance } = sudokuBox.generate();
       expect(puzzle).toHaveLength(81);
       expect(boardValidator.isValid(board)).toBeTruthy();
       expect(totalCellsFilled).toBeLessThanOrEqual(

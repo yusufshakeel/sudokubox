@@ -1,7 +1,7 @@
 # sudokubox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/sudokubox)
-[![npm version](https://img.shields.io/badge/npm-0.30.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
+[![npm version](https://img.shields.io/badge/npm-0.31.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
 [![npm Downloads](https://img.shields.io/npm/dm/sudokubox.svg)](https://www.npmjs.com/package/sudokubox)
 
 SudokuBox is an open source project that solves and generates 9x9 sudoku puzzle.
@@ -12,12 +12,12 @@ SudokuBox is an open source project that solves and generates 9x9 sudoku puzzle.
   * [Install](#install)
   * [Require](#require)
   * [Solve](#solve)
-  * [Is valid input](#is-valid-input)
-  * [Is valid board](#is-valid-board)
-  * [Generate](#generate)
   * [Config](#config)
     * [verbose](#verbose)
     * [logPerformance](#logperformance)
+  * [Is valid input](#is-valid-input)
+  * [Is valid board](#is-valid-board)
+  * [Generate](#generate)
 * [Sudoku board](#sudoku-board)
 * [Input](#input)
 * [Output](#output)
@@ -80,6 +80,56 @@ For error case the response will be like the following:
   }
 }
 ```
+
+### Config
+
+To pass config to SudokuBox pass the config option.
+
+```javascript
+const config = { someConfigField: 'someConfigValue' };
+const sudokuBox = new SudokuBox(config);
+```
+
+#### verbose
+
+To print the logs pass the following config.
+
+```javascript
+const config = { verbose: true };
+const sudokuBox = new SudokuBox(config);
+```
+
+Default: `verbose: false`
+
+#### logPerformance
+
+To print the performance pass the following config.
+
+```javascript
+const config = { logPerformance: true };
+const sudokuBox = new SudokuBox(config);
+```
+
+When `logPerformance` is `true` then result will look like the following.
+
+```
+{ 
+  "isPuzzleSolved": true,
+  "isBoardValid": true,
+  "output": [ /* this is a one dimensional array having 81 elements */ ], 
+  "board": [ /* this is a two dimensional 9x9 array */ ],
+  "performance": {
+    "duration": {
+      "nano": 24453670,
+      "micro": 24453.67,
+      "milli": 24.45367,
+      "second": 0.02445367
+    }
+  }
+}
+```
+
+Default: `logPerformance: false`
 
 ### Is valid input
 
@@ -187,17 +237,7 @@ Note!
 * `totalCellsFilled` denotes the total number of cells filled in the puzzle.
 * `performance` denotes the time taken. Check [logPerformance](#logperformance).
 
-#### Error
-
-In case of error we will get the following response.
-
-```
-{
-  "error": {
-    "message": "Some error message"
-  }
-}
-```
+Also, `puzzleConfig` is optional. If it is not set then default level=EASY.
 
 #### Puzzle Config
 
@@ -219,55 +259,17 @@ EXTREME
 DIABOLICAL
 ```
 
-### Config
+#### Error
 
-To pass config to SudokuBox pass the config option.
-
-```javascript
-const config = { someConfigField: 'someConfigValue' };
-const sudokuBox = new SudokuBox(config);
-```
-
-#### verbose
-
-To print the logs pass the following config.
-
-```javascript
-const config = { verbose: true };
-const sudokuBox = new SudokuBox(config);
-```
-
-Default: `verbose: false`
-
-#### logPerformance
-
-To print the performance pass the following config.
-
-```javascript
-const config = { logPerformance: true };
-const sudokuBox = new SudokuBox(config);
-```
-
-When `logPerformance` is `true` then result will look like the following.
+In case of error we will get the following response.
 
 ```
-{ 
-  "isPuzzleSolved": true,
-  "isBoardValid": true,
-  "output": [ /* this is a one dimensional array having 81 elements */ ], 
-  "board": [ /* this is a two dimensional 9x9 array */ ],
-  "performance": {
-    "duration": {
-      "nano": 24453670,
-      "micro": 24453.67,
-      "milli": 24.45367,
-      "second": 0.02445367
-    }
+{
+  "error": {
+    "message": "Some error message"
   }
 }
 ```
-
-Default: `logPerformance: false`
 
 ## Sudoku board
 
