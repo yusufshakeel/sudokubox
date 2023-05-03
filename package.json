@@ -1,6 +1,6 @@
 {
   "name": "sudokubox",
-  "version": "0.31.0",
+  "version": "0.32.0",
   "description": "SudokuBox is an open source project that solves 9x9 sudoku puzzle.",
   "main": "index.js",
   "scripts": {
