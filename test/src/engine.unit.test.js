@@ -171,7 +171,7 @@ describe('isValidBoard', () => {
       expect(engine.isValidBoard({ board: [], sudokuBoxConfig: { verbose: true } })).toStrictEqual({
         isValidBoard: false,
         error: {
-          message: "Cannot read property '0' of undefined"
+          message: "Cannot read properties of undefined (reading '0')"
         }
       });
     });
