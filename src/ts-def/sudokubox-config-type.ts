@@ -1,0 +1,1 @@
+export type SudokuBoxConfigType = { verbose?: boolean, logPerformance?: boolean };

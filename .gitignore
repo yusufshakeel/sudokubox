@@ -104,4 +104,10 @@ dist
 .tern-port
 
 # ide
-.idea/
+.idea
+
+# macOS
+.DS_Store
+
+# generated file
+lib/

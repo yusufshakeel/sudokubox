@@ -1,7 +1,7 @@
 # sudokubox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/sudokubox)
-[![npm version](https://img.shields.io/badge/npm-0.32.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
+[![npm version](https://img.shields.io/badge/npm-0.33.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
 [![npm Downloads](https://img.shields.io/npm/dm/sudokubox.svg)](https://www.npmjs.com/package/sudokubox)
 
 SudokuBox is an open source project that solves and generates 9x9 sudoku puzzle.
@@ -21,6 +21,7 @@ SudokuBox is an open source project that solves and generates 9x9 sudoku puzzle.
 * [Sudoku board](#sudoku-board)
 * [Input](#input)
 * [Output](#output)
+* [Older version](#older-version)
 * [License](#license)
 
 ## Getting started
@@ -38,7 +39,11 @@ npm i sudokubox
 Require `sudokubox`.
 
 ```javascript
-const SudokuBox = require('sudokubox');
+// ESM
+import SudokuBox from 'sudokubox';
+
+// CommonJs
+const { SudokuBox } = require('sudokubox');
 ```
 
 ### Solve
@@ -324,6 +329,10 @@ Note! The array is formatted into lines for readability.
   6, 9, 7, 8, 4, 3, 5, 2, 1
 ]
 ```
+
+## Older version
+
+[CommonJS version - check v0.32.0](https://github.com/yusufshakeel/sudokubox/releases/tag/v0.32.0)
 
 ## License
 
