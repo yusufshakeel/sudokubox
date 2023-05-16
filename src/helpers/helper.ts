@@ -1,13 +1,11 @@
-'use strict';
-
-function isEmpty(o) {
+export function isEmpty(o: Array<any> | object) {
   if (Array.isArray(o) && o.length === 0) {
     return true;
   }
   return typeof o === 'object' && Object.keys(o).length === 0;
 }
 
-function arrayEquals(a, b) {
+export function arrayEquals(a: Array<any>, b: Array<any>) {
   const aSorted = a.sort();
   const bSorted = b.sort();
   return (
@@ -17,5 +15,3 @@ function arrayEquals(a, b) {
     aSorted.every((val, index) => val === bSorted[index])
   );
 }
-
-module.exports = { arrayEquals, isEmpty };

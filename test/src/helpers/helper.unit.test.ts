@@ -1,6 +1,4 @@
-'use strict';
-
-const { arrayEquals, isEmpty } = require('../../../src/helpers/helper');
+import { arrayEquals, isEmpty } from '../../../src/helpers/helper';
 
 describe('arrayEquals', () => {
   describe('When arrays are equal', () => {
