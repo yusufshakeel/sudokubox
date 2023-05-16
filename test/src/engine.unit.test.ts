@@ -53,8 +53,8 @@ describe('solve', () => {
     test('Should return result', () => {
       const engine = sudokuEngine({});
       const result = engine.solve({ input: invalidPuzzleInput });
-      expect(result!.isPuzzleSolved!).toBeFalsy();
-      expect(result!.error!.message!).toBe(
+      expect(result!.isPuzzleSolved).toBeFalsy();
+      expect(result!.error!.message).toBe(
         'Input board contains invalid number in Row: 0, Column: 0.'
       );
     });
