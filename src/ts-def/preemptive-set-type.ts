@@ -1,4 +1,6 @@
 export type PreemptiveSetType = {
   cells: string[],
-  values: number[]
+  values: number[],
+  id: string,
+  size: number
 }

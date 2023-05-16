@@ -356,7 +356,7 @@ function segregateMarkup(markup:MarkupType) {
       ...result,
       [count]: { ...result[count], [cell]: values }
     };
-  }, {} as { [count: number]: MarkupType[] });
+  }, {} as { [count: number]: MarkupType });
 }
 
 /**

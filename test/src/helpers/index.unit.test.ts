@@ -263,7 +263,12 @@ describe('isRowPreemptiveSet', () => {
   describe('When preemptive set cells are along a row', () => {
     test('Should return true', () => {
       expect(
-        isRowPreemptiveSet({ cells: ['7,6', '7,7'], values:[] })
+        isRowPreemptiveSet({
+          cells: ['4,0', '4,1'],
+          id: '4,0-4,1',
+          size: 2,
+          values: [2, 6]
+        })
       ).toBeTruthy();
     });
   });
@@ -271,7 +276,12 @@ describe('isRowPreemptiveSet', () => {
   describe('When preemptive set cells are not along a row', () => {
     test('Should return false', () => {
       expect(
-        isRowPreemptiveSet({ cells: ['0,3', '2,3'],  values:[] })
+        isRowPreemptiveSet({
+          cells: ['2,2', '5,2'],
+          id: '2,2-5,2',
+          size: 2,
+          values: [1, 8]
+        })
       ).toBeFalsy();
     });
   });
@@ -281,7 +291,12 @@ describe('isColumnPreemptiveSet', () => {
   describe('When preemptive set cells are along a column', () => {
     test('Should return true', () => {
       expect(
-        isColumnPreemptiveSet({ cells: ['0,3', '2,3'], values:[] })
+        isColumnPreemptiveSet({
+          cells: ['0,3', '2,3'],
+          id: '0,3-2,3',
+          size: 2,
+          values: [5, 9]
+        })
       ).toBeTruthy();
     });
   });
@@ -289,7 +304,12 @@ describe('isColumnPreemptiveSet', () => {
   describe('When preemptive set cells are not along a column', () => {
     test('Should return false', () => {
       expect(
-        isColumnPreemptiveSet({ cells: ['7,6', '7,7'], values:[] })
+        isColumnPreemptiveSet({
+          cells: ['4,0', '4,1'],
+          id: '4,0-4,1',
+          size: 2,
+          values: [2, 6]
+        })
       ).toBeFalsy();
     });
   });
@@ -299,7 +319,12 @@ describe('isSubBoardPreemptiveSet', () => {
   describe('When preemptive set cells are in the same sub board', () => {
     test('Should return true', () => {
       expect(
-        isSubBoardPreemptiveSet({ cells: ['0,3', '2,5'], values:[] })
+        isSubBoardPreemptiveSet({
+          cells: ['7,6', '7,7'],
+          id: '7,6-7,7',
+          size: 2,
+          values: [1, 5]
+        })
       ).toBeTruthy();
     });
   });
@@ -307,7 +332,12 @@ describe('isSubBoardPreemptiveSet', () => {
   describe('When preemptive set cells are not in the same sub board', () => {
     test('Should return false', () => {
       expect(
-        isSubBoardPreemptiveSet({ cells: ['2,2', '5,2'], values:[] })
+        isSubBoardPreemptiveSet({
+          cells: ['0,3', '6,6'],
+          id: '0,3-6,6',
+          size: 2,
+          values: [5, 9]
+        })
       ).toBeFalsy();
     });
   });

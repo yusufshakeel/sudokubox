@@ -13,7 +13,7 @@ export default class MarkupBuilder {
   }
 
   public withBoard(board: BoardType) {
-    this.board = board;
+    this.board = [...board];
     return this;
   }
 
