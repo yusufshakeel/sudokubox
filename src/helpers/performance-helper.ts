@@ -5,7 +5,7 @@ export default class PerformanceHelper {
   private startedAt: [number,number] = [0,0];
   private duration: [number,number] = [0,0];
 
-  constructor(config: any = {}) {
+  constructor(config: any) {
     this.logPerformance = config.logPerformance || false;
   }
 
