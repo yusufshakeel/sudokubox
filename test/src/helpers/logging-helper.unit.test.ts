@@ -4,10 +4,10 @@ describe('LoggingHelper', () => {
   describe('When logging is enabled', () => {
     describe('Debug', () => {
       test('Should log', () => {
-        const config = { isLoggingEnabled: true, LOG: { debug: jest.fn() } };
+        const config = { isLoggingEnabled: true, logger: { debug: jest.fn() } };
         const loggingHelper = new LoggingHelper(config);
         loggingHelper.debug('Some data');
-        expect(config.LOG.debug).toHaveBeenCalledTimes(1);
+        expect(config.logger.debug).toHaveBeenCalledTimes(1);
       });
     });
   });
@@ -16,10 +16,10 @@ describe('LoggingHelper', () => {
     describe('When passing config', () => {
       describe('Debug', () => {
         test('Should log', () => {
-          const config = { LOG: { debug: jest.fn() } };
+          const config = { logger: { debug: jest.fn() } };
           const loggingHelper = new LoggingHelper(config);
           loggingHelper.debug('Some data');
-          expect(config.LOG.debug).toHaveBeenCalledTimes(0);
+          expect(config.logger.debug).toHaveBeenCalledTimes(0);
         });
       });
     });
