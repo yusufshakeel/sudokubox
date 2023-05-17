@@ -19,7 +19,10 @@ import { BoardType } from './ts-def/board-type';
 const { GENERATE_PUZZLE } = CONSTANTS;
 
 export default function engine({ sudokuBoxConfig }: { sudokuBoxConfig?: SudokuBoxConfigType }) {
-  const logging = new LoggingHelper({ isLoggingEnabled: sudokuBoxConfig?.verbose === true });
+  const logging = new LoggingHelper({
+    isLoggingEnabled: sudokuBoxConfig?.verbose === true,
+    logger: sudokuBoxConfig?.logger
+  });
   const performance = new PerformanceHelper({
     logPerformance: sudokuBoxConfig?.logPerformance === true
   });

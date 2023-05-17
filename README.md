@@ -1,7 +1,7 @@
 # sudokubox
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/sudokubox)
-[![npm version](https://img.shields.io/badge/npm-0.33.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
+[![npm version](https://img.shields.io/badge/npm-0.34.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
 [![npm Downloads](https://img.shields.io/npm/dm/sudokubox.svg)](https://www.npmjs.com/package/sudokubox)
 
 SudokuBox is an open source project that solves and generates 9x9 sudoku puzzle.
@@ -13,6 +13,7 @@ SudokuBox is an open source project that solves and generates 9x9 sudoku puzzle.
   * [Require](#require)
   * [Solve](#solve)
   * [Config](#config)
+    * [logger](#logger)
     * [verbose](#verbose)
     * [logPerformance](#logperformance)
   * [Is valid input](#is-valid-input)
@@ -95,6 +96,19 @@ const config = { someConfigField: 'someConfigValue' };
 const sudokuBox = new SudokuBox(config);
 ```
 
+#### logger
+
+Config custom logger like [Pino](https://www.npmjs.com/package/pino).
+
+```javascript
+import pino from 'pino';
+const pinoLogger = pino({ level: 'debug' });
+const config = { logger: pinoLogger };
+const sudokuBox = new SudokuBox(config);
+```
+
+Default: No logger is used.
+
 #### verbose
 
 To print the logs pass the following config.
@@ -105,6 +119,8 @@ const sudokuBox = new SudokuBox(config);
 ```
 
 Default: `verbose: false`
+
+Note! Must also set [logger](#logger).
 
 #### logPerformance
 

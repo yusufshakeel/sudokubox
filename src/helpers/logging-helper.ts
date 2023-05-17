@@ -1,26 +1,19 @@
-import * as console from 'console';
+import { LoggingConfigType } from '../ts-def/logging-config-type';
+import { LoggerType } from '../ts-def/logger-type';
 
 export default class LoggingHelper {
   private isLoggingEnabled = false;
-  private LOG = console;
+  private logger: LoggerType;
 
-  constructor(config: any = {}) {
+  constructor(config: LoggingConfigType = {}) {
     this.isLoggingEnabled = config.isLoggingEnabled || false;
-    this.LOG = config.LOG || console;
-  }
-
-  private time() {
-    return new Date().toISOString();
+    this.logger = config.logger || { debug: () => { /* do nothing */ } };
   }
 
   public debug(data: any) {
     this.isLoggingEnabled &&
-    this.LOG.debug(
-      JSON.stringify({
-        timestamp: this.time(),
-        type: 'DEBUG',
-        data
-      })
-    );
+    this.logger.debug({
+      data
+    });
   }
 }

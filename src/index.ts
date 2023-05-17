@@ -2,12 +2,13 @@ import { defaultSudokuBoxConfig, defaultGenerateConfig } from './configs';
 import sudokuEngine from './engine';
 import { InputType } from './ts-def/input-type';
 import { BoardType } from './ts-def/board-type';
+import { SudokuBoxConfigType } from './ts-def/sudokubox-config-type';
 
 export class SudokuBox {
   private sudokuBoxConfig;
   private engine;
 
-  constructor(config: any = {}) {
+  constructor(config: SudokuBoxConfigType = {}) {
     this.sudokuBoxConfig = {
       ...defaultSudokuBoxConfig,
       ...config
@@ -27,7 +28,7 @@ export class SudokuBox {
     return this.engine.isValidBoard({ board });
   }
 
-  public generate(config: any = {}) {
+  public generate(config: SudokuBoxConfigType = {}) {
     const generateConfig = {
       ...defaultGenerateConfig,
       ...config

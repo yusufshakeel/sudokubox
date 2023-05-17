@@ -1,13 +1,26 @@
+import pino from 'pino';
 import LoggingHelper from '../../../src/helpers/logging-helper';
+const pinoLogger = pino({ level: 'debug' });
 
 describe('LoggingHelper', () => {
   describe('When logging is enabled', () => {
     describe('Debug', () => {
       test('Should log', () => {
-        const config = { isLoggingEnabled: true, LOG: { debug: jest.fn() } };
+        const config = { isLoggingEnabled: true, logger: { debug: jest.fn() } };
         const loggingHelper = new LoggingHelper(config);
         loggingHelper.debug('Some data');
-        expect(config.LOG.debug).toHaveBeenCalledTimes(1);
+        expect(config.logger.debug).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe('When using custom logger', () => {
+      test('Should be able to log', () => {
+        const spy = jest.spyOn(pinoLogger, 'debug');
+        const config = { isLoggingEnabled: true, logger: pinoLogger };
+        const loggingHelper = new LoggingHelper(config);
+        loggingHelper.debug({ hello: 'world' });
+        expect(spy).toHaveBeenCalledWith({ data: { hello: 'world' } });
+        spy.mockRestore();
       });
     });
   });
@@ -16,10 +29,10 @@ describe('LoggingHelper', () => {
     describe('When passing config', () => {
       describe('Debug', () => {
         test('Should log', () => {
-          const config = { LOG: { debug: jest.fn() } };
+          const config = { logger: { debug: jest.fn() } };
           const loggingHelper = new LoggingHelper(config);
           loggingHelper.debug('Some data');
-          expect(config.LOG.debug).toHaveBeenCalledTimes(0);
+          expect(config.logger.debug).toHaveBeenCalledTimes(0);
         });
       });
     });
