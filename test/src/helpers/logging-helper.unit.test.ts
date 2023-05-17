@@ -1,4 +1,6 @@
+import pino from 'pino';
 import LoggingHelper from '../../../src/helpers/logging-helper';
+const pinoLogger = pino({ level: 'debug' });
 
 describe('LoggingHelper', () => {
   describe('When logging is enabled', () => {
@@ -8,6 +10,17 @@ describe('LoggingHelper', () => {
         const loggingHelper = new LoggingHelper(config);
         loggingHelper.debug('Some data');
         expect(config.logger.debug).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe('When using custom logger', () => {
+      test('Should be able to log', () => {
+        const spy = jest.spyOn(pinoLogger, 'debug');
+        const config = { isLoggingEnabled: true, logger: pinoLogger };
+        const loggingHelper = new LoggingHelper(config);
+        loggingHelper.debug({ hello: 'world' });
+        expect(spy).toHaveBeenCalledWith({ data: { hello: 'world' } });
+        spy.mockRestore();
       });
     });
   });
