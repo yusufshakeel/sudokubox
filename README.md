@@ -1,5 +1,6 @@
 # sudokubox
 
+[![Build Status](https://github.com/yusufshakeel/sudokubox/actions/workflows/ci.yml/badge.svg)](https://github.com/yusufshakeel/sudokubox/actions/workflows/ci.yml)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yusufshakeel/sudokubox)
 [![npm version](https://img.shields.io/badge/npm-0.34.0-blue.svg)](https://www.npmjs.com/package/sudokubox)
 [![npm Downloads](https://img.shields.io/npm/dm/sudokubox.svg)](https://www.npmjs.com/package/sudokubox)
