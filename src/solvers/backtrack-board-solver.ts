@@ -9,6 +9,7 @@ export default class BacktrackBoardSolver {
   private markupBuilder;
   private boardSolver;
 
+  // eslint-disable-next-line
   constructor(config: any) {
     this.logging = config.logging;
     this.markupBuilder = config.markupBuilder;

@@ -11,6 +11,7 @@ export default class BoardSolver {
   private solutionValidator;
   private boardValidator;
 
+  // eslint-disable-next-line
   constructor(config: any) {
     this.logging = config.logging;
     this.markupBuilder = config.markupBuilder;

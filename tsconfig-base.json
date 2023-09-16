@@ -28,12 +28,13 @@
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
-    "declarationDir": "lib/types"
+    "declarationDir": "dist/types"
   },
   "compileOnSave": false,
   "exclude": [
     "coverage",
     "lib",
+    "dist",
     "node_modules",
     "test"
   ],

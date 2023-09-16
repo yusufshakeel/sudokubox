@@ -10,6 +10,7 @@ export default class PuzzleBuilder {
   private minNumberOfCellsToFill!: number;
   private maxNumberOfCellsToFill!: number;
 
+  // eslint-disable-next-line
   constructor(config: any) {
     this.logging = config.logging;
   }

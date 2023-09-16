@@ -403,6 +403,8 @@ function getFirstMarkupWithLessNumberOfValues(markup: MarkupType) {
     .map(v => parseInt(v))
     .sort();
   const lowestGroupSize = groupSize[0];
+
+  // eslint-disable-next-line
   const [cell, values]: any =
     Object.entries(markup)
       .find(entry => entry[1].length === lowestGroupSize);

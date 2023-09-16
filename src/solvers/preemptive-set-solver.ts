@@ -18,6 +18,7 @@ const {
 export default class PreemptiveSetSolver {
   private logging;
 
+  // eslint-disable-next-line
   constructor(config: any) {
     this.logging = config.logging;
   }

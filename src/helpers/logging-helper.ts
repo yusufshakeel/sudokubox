@@ -10,6 +10,7 @@ export default class LoggingHelper {
     this.logger = config.logger || { debug: () => { /* do nothing */ } };
   }
 
+  // eslint-disable-next-line
   public debug(data: any) {
     this.isLoggingEnabled &&
     this.logger.debug({

@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 export function isEmpty(o: Array<any> | object) {
   if (Array.isArray(o) && o.length === 0) {
     return true;
@@ -5,6 +6,7 @@ export function isEmpty(o: Array<any> | object) {
   return typeof o === 'object' && Object.keys(o).length === 0;
 }
 
+// eslint-disable-next-line
 export function arrayEquals(a: Array<any>, b: Array<any>) {
   const aSorted = a.sort();
   const bSorted = b.sort();

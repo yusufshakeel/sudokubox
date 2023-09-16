@@ -6,6 +6,7 @@ const { getMarkupCellIndices } = helpers;
 export default class MarkupSolver {
   private logging;
 
+  // eslint-disable-next-line
   constructor(config: any) {
     this.logging = config.logging;
   }

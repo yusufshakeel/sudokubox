@@ -45,6 +45,8 @@ export default function engine({ sudokuBoxConfig }: { sudokuBoxConfig?: SudokuBo
 
     try {
       new InputValidator().validate(inputBoard);
+
+      // eslint-disable-next-line
     } catch (e: any) {
       return {
         isPuzzleSolved: false,
@@ -136,6 +138,9 @@ export default function engine({ sudokuBoxConfig }: { sudokuBoxConfig?: SudokuBo
       });
 
       return { isValidInput: boardValidator.isValid(board) };
+
+
+      // eslint-disable-next-line
     } catch (e: any) {
       logging.debug({
         moduleName: 'Engine',
@@ -174,6 +179,9 @@ export default function engine({ sudokuBoxConfig }: { sudokuBoxConfig?: SudokuBo
       });
 
       return { isValidBoard: boardValidator.isValid(board) };
+
+
+      // eslint-disable-next-line
     } catch (e: any) {
       logging.debug({
         moduleName: 'Engine',

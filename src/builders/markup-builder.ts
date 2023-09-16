@@ -8,6 +8,7 @@ export default class MarkupBuilder {
   private logging;
   private board!: BoardType;
 
+  // eslint-disable-next-line
   constructor(config: any) {
     this.logging = config.logging;
   }

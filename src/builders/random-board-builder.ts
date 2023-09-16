@@ -10,6 +10,7 @@ const boardValidator = new BoardValidator();
 export default class RandomBoardBuilder {
   private logging;
 
+  // eslint-disable-next-line
   constructor(config: any) {
     this.logging = config.logging;
   }

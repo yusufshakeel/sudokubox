@@ -16,6 +16,7 @@ export default class PreemptiveSetBuilder {
   private logging;
   private markup!: MarkupType;
 
+  // eslint-disable-next-line
   constructor(config: any) {
     this.logging = config.logging;
   }
