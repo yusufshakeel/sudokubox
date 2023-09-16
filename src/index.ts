@@ -3,6 +3,7 @@ import sudokuEngine from './engine';
 import { InputType } from './ts-def/input-type';
 import { BoardType } from './ts-def/board-type';
 import { SudokuBoxConfigType } from './ts-def/sudokubox-config-type';
+import { GeneratePuzzleConfigType } from './ts-def/generate-puzzle-config-type';
 
 export class SudokuBox {
   private sudokuBoxConfig;
@@ -28,7 +29,7 @@ export class SudokuBox {
     return this.engine.isValidBoard({ board });
   }
 
-  public generate(config: SudokuBoxConfigType = {}) {
+  public generate(config: GeneratePuzzleConfigType = {}) {
     const generateConfig = {
       ...defaultGenerateConfig,
       ...config
